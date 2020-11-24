@@ -1,0 +1,21 @@
+# Mac
+.DS_Store
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+
+# vi
+*~
+.exrc
+.Session.vim
+.Session.nvim
+.tags*
+.ccls-cache
+
+# tex
+.latex_aux/
+
+# backup
+*.bak
