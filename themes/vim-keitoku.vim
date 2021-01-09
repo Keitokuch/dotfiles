@@ -163,7 +163,7 @@ call s:hi("PreCondit", s:macro, {}, "")
 
 call s:hi("Type", s:skyblue, {}, "")
 call s:hi("StorageClass", s:purplepink, {}, "")
-call s:hi("Structure", s:purple, {}, "")
+call s:hi("Structure", s:skyblue, {}, "")
 call s:hi("Typedef", s:yellow, {}, "")
 
 call s:hi("Conventional", s:opt, {}, "italic")

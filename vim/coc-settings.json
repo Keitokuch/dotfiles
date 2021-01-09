@@ -6,9 +6,8 @@
     "coc.source.buffer.priority": 95,
     "coc.source.file.priority": 93,
     "snippets.priority": 98,
-    "python.disableInstallationCheck": true,
-    "python.jediEnabled": false,
     "python.pythonPath": "python3",
+    "python.linting.enabled": false,
     "java.codeGeneration.generateComments": true,
     "java.completion.overwrite": false
 }

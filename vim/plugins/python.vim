@@ -1,6 +1,7 @@
 " Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-"
+" Plug 'vim-python/python-syntax', { 'for': 'python' }
 
+" let g:python_highlight_all = 1
 " let g:pymode_python = 'python3'
 " let g:pymode_rope = 0
 " let g:pymode_warnings = 1

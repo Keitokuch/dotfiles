@@ -5,7 +5,7 @@ map <leader>r :LeaderfFunction<cr>
 map <leader>R :LeaderfFunctionAll<cr>
 map <leader>t :LeaderfBufTag<cr>
 " map <leader>T :LeaderfTag<cr>
-" map <leader>t :LeaderfBuffer<cr>
+map <leader>p :LeaderfBuffer<cr>
 map <leader>o :LeaderfFile<cr>
 " map <leader>o :LeaderfMruCwd<cr>
 nmap  /       :LeaderfLine<cr>
