@@ -1,10 +1,10 @@
-[[ -z $Z_HOST_C ]] && Z_HOST_C=111
+[[ -z $Z_HOST_C ]] && Z_HOST_C=75
 [[ -z $Z_USER_C ]] && Z_USER_C=215
 
 cuser=%F{$Z_USER_C}
 chost=%F{$Z_HOST_C}
 cdir='%F{81}'
-cmark='%F{243}'
+cmark='%F{105}'
 cgbk='%F{225}'
 cgit='%F{219}'
 
