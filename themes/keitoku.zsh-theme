@@ -1,8 +1,8 @@
-[[ -z $Z_HOST_C ]] && Z_HOST_C=111
-[[ -z $Z_USER_C ]] && Z_USER_C=215
+[[ -z $Z_USER_COLOR ]] && Z_USER_COLOR=215
+[[ -z $Z_HOST_COLOR ]] && Z_HOST_COLOR=111
 
-cuser=%F{$Z_USER_C}
-chost=%F{$Z_HOST_C}
+cuser=%F{$Z_USER_COLOR}
+chost=%F{$Z_HOST_COLOR}
 cdir='%F{81}'
 cmark='%F{246}'
 cgbk='%F{225}'
