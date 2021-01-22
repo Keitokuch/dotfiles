@@ -1,10 +1,10 @@
-[[ -z $Z_HOST_C ]] && Z_HOST_C=75
+[[ -z $Z_HOST_C ]] && Z_HOST_C=111
 [[ -z $Z_USER_C ]] && Z_USER_C=215
 
 cuser=%F{$Z_USER_C}
 chost=%F{$Z_HOST_C}
 cdir='%F{81}'
-cmark='%F{105}'
+cmark='%F{246}'
 cgbk='%F{225}'
 cgit='%F{219}'
 
@@ -19,7 +19,7 @@ if [[ -z $TMUX ]] || [[ ! -z $VIM ]]; then
 	dir='%~'
 fi
 
-if [[ ! -z $SSH_CLIENT ]] || [[ -z $TMUX ]]; then
+if [[ -z $TMUX ]]; then
 # show host if in SSH or not in tmux
 	sig=$cuser$user$cmark@$chost$host
 fi
