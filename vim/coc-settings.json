@@ -8,6 +8,7 @@
     "snippets.priority": 98,
     "python.pythonPath": "python3",
     "python.linting.enabled": false,
+    "python.analysis.typeCheckingMode": "off",
     "java.codeGeneration.generateComments": true,
     "java.completion.overwrite": false
 }
