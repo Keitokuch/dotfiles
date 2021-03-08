@@ -31,3 +31,15 @@ nmap <leader>6 <Plug>BuffetSwitch(6)
 nmap <leader>7 <Plug>BuffetSwitch(7)
 nmap <leader>8 <Plug>BuffetSwitch(8)
 nmap <leader>9 <Plug>BuffetSwitch(9)
+
+function! MyTabline()
+    let tabline=buffet#render()
+    " let tabline=airline#extensions#tabline#get()
+    if g:NERDTree.IsOpen()
+        let width = winwidth(g:NERDTree.GetWinNum())
+        let tabline = '%#Normal#' . repeat(' ', width) . '%#VertSplit# ' . tabline
+    endif
+    return tabline
+endfunction
+
+au VimEnter * set tabline=%!MyTabline()
