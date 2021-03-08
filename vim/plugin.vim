@@ -12,6 +12,7 @@ let g:plugins = [
             \ 'nerdtree',
             \ 'polyglot',
             \ 'python',
+            \ 'tabs',
             \ 'tagbar',
             \ 'tags',
             \ 'visual-multi',
@@ -24,7 +25,6 @@ let g:plugins = [
             \ 'vimtex',
             \ 'vterm',
             \ 'leaderf',
-            \ 'buffet',
             \ 'go',
             \ 'pairs',
             \ 'end_of_plugins'
@@ -35,6 +35,7 @@ let g:nvim_plugins = [
 
 """""" Unloaded Plugins
             \ 'scroll',
+            \ 'buffet',
             \ 'minimap',
             \ 'snazzy',
 

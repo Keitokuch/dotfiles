@@ -7,6 +7,7 @@ let g:airline_theme='onehalfdark'
 let g:airline#extensions#coc#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
 
+" Tabline by airline
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_close_button = 1

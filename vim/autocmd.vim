@@ -23,8 +23,6 @@ augroup startup
     autocmd VimLeave * call LeaveSetup()
 augroup end
 
-au VimEnter * set tabline=%!MyTabline()
-
 " Unlist filetypes
 augroup unlistbuf
     au Filetype rst set nobuflisted     " do not list python doc files
