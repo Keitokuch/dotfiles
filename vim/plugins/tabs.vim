@@ -2,7 +2,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
 
 let bufferline = get(g:, 'bufferline', {})
-let bufferline.animation = v:true
+let bufferline.animation = v:false
 let bufferline.icons = 'both'
 let bufferline.icon_custom_colors = v:false
 let bufferline.closable = v:false
