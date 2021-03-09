@@ -36,4 +36,4 @@ function! MyTabline()
     return tabline
 endfunction
 
-au VimEnter * set tabline=%!MyTabline()
+" au VimEnter * set tabline=%!MyTabline()
