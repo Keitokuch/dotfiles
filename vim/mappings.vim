@@ -60,7 +60,7 @@ map <leader>w :CloseBuffer<CR>
 "" <Space W> to force close file
 map <silent><expr> <leader>W buflisted(bufnr("%"))? ":bp<cr>:bd! #<cr>" : ":q!\<CR>"
 "" <Space Ctrl-W> to close window
-map <leader><C-w> :q<CR>
+map <leader><C-w> :close<CR>
 "  <Space n> to create new file
 map <leader>n :enew<CR>i
 map <leader>N :NewFile<CR>
