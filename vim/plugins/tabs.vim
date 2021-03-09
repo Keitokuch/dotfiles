@@ -6,7 +6,7 @@ let bufferline.animation = v:false
 let bufferline.icons = 'both'
 let bufferline.icon_custom_colors = v:false
 let bufferline.closable = v:false
-let bufferline.maximum_padding = 1
+let bufferline.maximum_padding = 2
 
 " Move to previous/next
 nnoremap <silent>    <leader>l :BufferPrevious<CR>
@@ -26,3 +26,14 @@ nnoremap <silent>    <leader>8 :BufferGoto 8<CR>
 nnoremap <silent>    <leader>9 :BufferLast<CR>
 " Close buffer
 nnoremap <silent>    <leader>w :BufferClose<CR>
+
+function! MyTabline()
+    let tabline=&tabline
+    if g:NERDTree.IsOpen()
+        let width = winwidth(g:NERDTree.GetWinNum())
+        let tabline = '%#Normal#' . repeat(' ', width) . '%#VertSplit# ' . tabline
+    endif
+    return tabline
+endfunction
+
+au VimEnter * set tabline=%!MyTabline()
