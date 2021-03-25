@@ -20,3 +20,6 @@ tags
 
 # backup
 *.bak
+
+# Java
+*.class
