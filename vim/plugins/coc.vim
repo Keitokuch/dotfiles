@@ -45,6 +45,9 @@ imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<C-k>"
 inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>" : 
                                            \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
+" Comply with VM
+autocmd User visual_multi_mappings  imap <buffer><expr> <CR> pumvisible() ? "\<C-Y>" : "\<Plug>(VM-I-Return)"
+
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
