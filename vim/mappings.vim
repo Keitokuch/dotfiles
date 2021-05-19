@@ -77,9 +77,9 @@ nnoremap <C-y> <C-t>
 inoremap <C-a> <ESC>I
 inoremap <C-f> <right>
 inoremap <C-b> <left>
-inoremap <C-M-b> <ESC>bi
-inoremap <C-M-f> <right><ESC>wi
-inoremap <C-M-d> <right><ESC>wcw
+inoremap <C-M-b> <ESC>Bi
+inoremap <C-M-f> <right><ESC>Wi
+inoremap <C-M-d> <right><ESC>WcW
 inoremap <silent><expr> <C-e> pumvisible()? "\<C-e>" : "\<ESC>A"
 inoremap <silent><expr> <C-p> pumvisible()? "\<C-p>" : "\<up>"
 inoremap <silent><expr> <C-n> pumvisible()? "\<C-n>" : "\<down>"
