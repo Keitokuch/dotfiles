@@ -25,7 +25,7 @@ nnoremap <silent>    <leader>7 :BufferGoto 7<CR>
 nnoremap <silent>    <leader>8 :BufferGoto 8<CR>
 nnoremap <silent>    <leader>9 :BufferLast<CR>
 " Close buffer
-nnoremap <silent>    <leader>w :BufferClose<CR>
+" nnoremap <silent>    <leader>w :BufferClose<CR>
 
 function! MyTabline()
     let tabline=&tabline
@@ -37,3 +37,18 @@ function! MyTabline()
 endfunction
 
 " au VimEnter * set tabline=%!MyTabline()
+function! CloseBuffer()
+    if buflisted(bufnr("%"))
+        if &modified
+            echo "Changes Not Saved!"
+        elseif len(getbufinfo({'buflisted':1})) == 1
+            BufferClose
+            enew
+        else
+            BufferClose
+        endif
+    else
+        q
+    endif
+endfu
+command! -n=0 CloseBuffer call CloseBuffer()

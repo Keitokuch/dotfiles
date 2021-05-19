@@ -50,20 +50,20 @@ map <leader><Right> :vertical resize+5<CR>
 " map <leader>[ :-tabnext<CR>
 
 "" <Space s> to save
-map <leader>s :SaveFile<CR>
+map <silent> <leader>s :SaveFile<CR>
 "" <Space q> to quit
 map <leader>q :qall<CR>
 "" <Space Q> to force quit
 map <leader>Q :qall!<CR>
 "" <Space w> to close file
-map <leader>w :CloseBuffer<CR>
+map <silent> <leader>w :CloseBuffer<CR>
 "" <Space W> to force close file
 map <silent><expr> <leader>W buflisted(bufnr("%"))? ":bp<cr>:bd! #<cr>" : ":q!\<CR>"
 "" <Space Ctrl-W> to close window
-map <leader><C-w> :close<CR>
+map <silent> <leader><C-w> :close<CR>
 "  <Space n> to create new file
 map <leader>n :enew<CR>i
-map <leader>N :NewFile<CR>
+map <silent> <leader>N :NewFile<CR>
 
 "" Jumping
 " <Ctrl-P> jump to tag
