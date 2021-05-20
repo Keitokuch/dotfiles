@@ -22,6 +22,7 @@ let g:plugins = [
             \ 'java',
             \ 'indent',
             \ 'scrollbar',
+            \ 'web',
             \ 'vimtex',
             \ 'vterm',
             \ 'leaderf',
@@ -31,6 +32,7 @@ let g:plugins = [
             \]
 
 let g:nvim_plugins = [
+            \ 'end_of_plugins'
             \]
 
 """""" Unloaded Plugins
@@ -40,7 +42,7 @@ let g:nvim_plugins = [
             \ 'snazzy',
 
 
-let g:plugins = has('nvim') ? plugins + nvim_plugins : plugins
+let g:plugins = has('nvim') ? nvim_plugins + plugins : plugins
 call plug#begin()
 for plug in plugins
     let f = plug_path . plug . '.vim'
