@@ -1,14 +1,15 @@
 {
     "coc.preferences.colorSupport": false,
     "coc.preferences.enableFloatHighlight": false,
-    "suggest.languageSourcePriority": 98,
-    "coc.source.around.priority": 97,
-    "coc.source.buffer.priority": 95,
+    "suggest.defaultSortMethod": "none",
+    "snippets.priority": 96,
+    "coc.source.around.priority": 95,
     "coc.source.file.priority": 93,
-    "snippets.priority": 98,
+    "coc.source.buffer.priority": 92,
     "python.pythonPath": "python3",
     "python.linting.enabled": false,
     "python.analysis.typeCheckingMode": "off",
     "java.codeGeneration.generateComments": true,
-    "java.completion.overwrite": false
+    "java.completion.overwrite": false,
+    "vetur.ignoreProjectWarning": true
 }
