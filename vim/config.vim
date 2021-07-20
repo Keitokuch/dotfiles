@@ -48,16 +48,17 @@ syntax on
 " set clipboard^=unnamed
 " set clipboard^=unnamedplus,unnamed
 set clipboard=""
-nnoremap p "*p
-vnoremap p "*p
-nnoremap d "*d
-vnoremap d "*d
-nnoremap y "*y
-vnoremap y "*y
-nnoremap P "*P
-vnoremap P "*P
-nnoremap D "*D
-vnoremap D "*D
+set clipboard+=unnamedplus
+" nnoremap p "*p
+" vnoremap p "*p
+" nnoremap d "+*d
+" vnoremap d "*d
+" nnoremap y "+*y
+" vnoremap y "*y
+" nnoremap P "*P
+" vnoremap P "*P
+" nnoremap D "*D
+" vnoremap D "*D
 
 " ======================== Languages ==========================
 " -------------- Lua -----------------
