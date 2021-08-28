@@ -15,6 +15,7 @@ let g:plugins = [
             \ 'tabs',
             \ 'tagbar',
             \ 'tags',
+            \ 'menubar',
             \ 'visual-multi',
             \ 'colors',
             \ 'colorschemes',
@@ -43,9 +44,19 @@ let g:nvim_plugins = [
 
 
 let g:plugins = has('nvim') ? nvim_plugins + plugins : plugins
+
 call plug#begin()
 for plug in plugins
     let f = plug_path . plug . '.vim'
-    exec 'source' f
+    if filereadable(f)
+        exec 'source' f
+    endif
 endfor
 call plug#end()
+
+for plug in plugins
+    let f = plug_path . plug . '.after.vim'
+    if filereadable(f)
+        exec 'source' f
+    endif
+endfor
