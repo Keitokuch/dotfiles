@@ -11,5 +11,6 @@
     "python.analysis.typeCheckingMode": "off",
     "java.codeGeneration.generateComments": true,
     "java.completion.overwrite": false,
-    "vetur.ignoreProjectWarning": true
+    "vetur.ignoreProjectWarning": true,
+    "java.errors.incompleteClasspath.severity": "ignore"
 }
