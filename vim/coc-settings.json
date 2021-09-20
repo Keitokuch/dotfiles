@@ -1,6 +1,13 @@
 {
     "coc.preferences.colorSupport": false,
     "coc.preferences.enableFloatHighlight": false,
+    "coc.preferences.rootPatterns": [
+        ".git",
+        ".hg",
+        ".projections.json",
+        "README.md",
+        ".proj"
+    ],
     "suggest.defaultSortMethod": "none",
     "snippets.priority": 96,
     "coc.source.around.priority": 95,
