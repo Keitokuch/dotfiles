@@ -19,7 +19,6 @@ let g:plugins = [
             \ 'visual-multi',
             \ 'colors',
             \ 'colorschemes',
-            \ 'syntastic',
             \ 'java',
             \ 'indent',
             \ 'scrollbar',
@@ -39,6 +38,7 @@ let g:nvim_plugins = [
 """""" Unloaded Plugins
             \ 'scroll',
             \ 'buffet',
+            \ 'syntastic',
             \ 'minimap',
             \ 'snazzy',
 
