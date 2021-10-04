@@ -14,6 +14,11 @@
 .tags*
 .ccls-cache
 tags
+.proj
+
+# Python
+*.pyc
+__pycache__/
 
 # tex
 .latex_aux/
