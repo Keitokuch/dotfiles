@@ -28,11 +28,23 @@ fu! StartSetup()
     endif
 endfu
 
-let s:session_file = has('nvim') ? '.Session.nvim' : '.Session.vim'
+let s:session_file_suffix = has('nvim') ? '.Session.nvim' : '.Session.vim'
+let s:session_dir = g:config_path . 'sessions'
+exe mkdir(s:session_dir, 'p')
+
+fu! s:session_file_path()
+    let l:session_name = substitute(g:START_DIR, "/", "", "")
+    let l:session_name = substitute(l:session_name, "/", "_", "g")
+    let l:file = l:session_name . s:session_file_suffix
+    let l:session_file_path = s:session_dir . '/' . l:file
+    return l:session_file_path
+endfu
 
 fu! RestoreSess()
-    if filereadable(getcwd() . '/' . s:session_file)
-        exe 'so ' . getcwd() . '/' . s:session_file
+    let l:session_file = s:session_file_path()
+    echo l:session_file
+    if filereadable(l:session_file)
+        exe 'so ' . l:session_file
         if bufexists(1)
             for l in range(1, bufnr('$'))
                 if bufwinnr(l) == -1
@@ -60,7 +72,7 @@ fu! LeaveSetup()
     endif
     exe 'tabn ' . currTab
     if g:DIR_START
-        let l:session_file = g:START_DIR . '/' . s:session_file 
+        let l:session_file = s:session_file_path()
         exe 'mksession! ' . l:session_file
         if restore_tree
             call writefile(["NERDTreeToggle | wincmd p"], l:session_file, "a")
