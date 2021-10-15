@@ -1,7 +1,7 @@
 Plug 'easymotion/vim-easymotion'
 
 "" ---------------------- easymotion -------------------------------
-map g; <Plug>(easymotion-overwin-f)
+map g; <Plug>(easymotion-overwin-f2)
 map ; <Plug>(easymotion-s)
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
