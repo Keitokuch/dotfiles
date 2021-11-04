@@ -33,6 +33,8 @@ inoremap <silent><expr> <TAB>
             \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
             \ "\<TAB>"
 
+let g:coc_snippet_next = '<Tab>'
+let g:coc_snippet_prev = '<C-k>'
 map <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<C-k>"
 xmap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<C-k>"
 imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<C-k>"
@@ -51,9 +53,6 @@ autocmd User visual_multi_mappings  imap <buffer><expr> <CR> pumvisible() ? "\<C
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-let g:coc_snippet_next = '<Tab>'
-let g:coc_snippet_prev = '<C-k>'
 
 
 "" ------------------------------------ coc.nvim -------------------------------------------
