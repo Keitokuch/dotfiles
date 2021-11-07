@@ -1,7 +1,10 @@
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets'
 
-let g:coc_global_extensions=['coc-snippets', 'coc-json']
+let g:coc_global_extensions=['coc-snippets', 'coc-json', 'coc-xml']
+
+" coc-pairs, coc-snippets
+" coc-python, coc-json, coc-html, coc-java, coc-go
 
 " ------------------------ Mappings -------------------------
 
@@ -56,9 +59,6 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 
 "" ------------------------------------ coc.nvim -------------------------------------------
-" coc-pairs, coc-snippets
-" coc-python, coc-json, coc-vimtex, coc-html, coc-java, coc-go
-
 
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " TextEdit might fail if hidden is not set.
