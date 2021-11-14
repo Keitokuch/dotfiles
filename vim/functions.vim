@@ -45,15 +45,15 @@ fu! RestoreSess()
     echo l:session_file
     if filereadable(l:session_file)
         exe 'so ' . l:session_file
-        if bufexists(1)
-            for l in range(1, bufnr('$'))
-                if bufwinnr(l) == -1
-                    exe 'sbuffer ' . l
-                endif
-            endfor
+        " if bufexists(1)
+        "     for l in range(1, bufnr('$'))
+        "         if bufwinnr(l) == -1
+        "             exe 'sbuffer ' . l
+        "         endif
+        "     endfor
         " else
         "     exe 'NERDTreeFind' | wincmd p
-        endif
+        " endif
         return 1
     else
         return 0
