@@ -6,8 +6,9 @@ inoremap jj <ESC>
 map q <ESC>
 nnoremap Q q
 " Up Down scrolling
-map <C-i> 10k
-map <C-d> 10j
+nnoremap <C-i> 10k
+nnoremap <Tab> 10k
+nnoremap <C-d> 10j
 " Copy All
 nmap <leader>y :%yank *<CR>
 " Copy Line
