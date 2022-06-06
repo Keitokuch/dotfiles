@@ -9,6 +9,9 @@ nnoremap Q q
 nnoremap <C-i> 10k
 nnoremap <Tab> 10k
 nnoremap <C-d> 10j
+vnoremap <C-i> 10k
+vnoremap <Tab> 10k
+vnoremap <C-d> 10j
 " Copy All
 nmap <leader>y :%yank *<CR>
 " Copy Line
