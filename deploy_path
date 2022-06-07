@@ -1,6 +1,6 @@
 zshrc                       ~/.zshrc
 zshrc.$OS                   ~/.zshrc.native
-zshenv                      ~/.zshenv
+zlogin                      ~/.zlogin
 init.vim                    ~/.config/nvim/init.vim
 init.vim                    ~/.vim/vimrc
 vim/*                       ~/.config/nvim/
