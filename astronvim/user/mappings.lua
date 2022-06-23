@@ -102,15 +102,9 @@ User.fn.do_mappings = function ()
   if is_available("bufferline.nvim") then
     map("n", "<leader>l", "<cmd>BufferLineCyclePrev<cr>", { nowait = true, desc = "Previous tab" })
     map("n", "<leader>;", "<cmd>BufferLineCycleNext<cr>", { desc = "Next tab" })
-    map("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>")
-    map("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>")
-    map("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>")
-    map("n", "<leader>4", "<Cmd>BufferLineGoToBuffer 4<CR>")
-    map("n", "<leader>5", "<Cmd>BufferLineGoToBuffer 5<CR>")
-    map("n", "<leader>6", "<Cmd>BufferLineGoToBuffer 6<CR>")
-    map("n", "<leader>7", "<Cmd>BufferLineGoToBuffer 7<CR>")
-    map("n", "<leader>8", "<Cmd>BufferLineGoToBuffer 8<CR>")
-    map("n", "<leader>9", "<Cmd>BufferLineGoToBuffer 9<CR>")
+    for i = 1,9 do
+      map('n', ('<leader>%s'):format(i),  ('<cmd>(BufferLineGoToBuffer %s)'):format(i))
+    end
   end
 
   if is_available("nvim-cokeline") then
@@ -119,10 +113,9 @@ User.fn.do_mappings = function ()
     map("n", "<leader><", "<Plug>(cokeline-switch-prev)", { nowait = true, desc = "Previous tab" })
     map("n", "<leader>>", "<Plug>(cokeline-switch-next)", { desc = "Next tab" })
     for i = 1,9 do
-      map('n', ('<leader>%s'):format(i),      ('<Plug>(cokeline-focus-%s)'):format(i),  { silent = true })
+      map('n', ('<leader>%s'):format(i),  ('<Plug>(cokeline-focus-%s)'):format(i),  { silent = true })
     end
   end
-
 
   if is_available("hop.nvim") then
     vim.api.nvim_set_keymap('n', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
@@ -132,7 +125,7 @@ User.fn.do_mappings = function ()
     vim.api.nvim_set_keymap('x', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true})<cr>", {})
     vim.api.nvim_set_keymap('x', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true})<cr>", {})
     vim.api.nvim_set_keymap('n', ';', "<cmd> lua require'hop'.hint_char1()<cr>", {})
-    vim.api.nvim_set_keymap('v', ';', "<cmd> lua require'hop'.hint_char1{ })<cr>", {})
+    vim.api.nvim_set_keymap('v', ';', "<cmd> lua require'hop'.hint_char1()<cr>", {})
     vim.api.nvim_set_keymap('o', ';', "<cmd> lua require'hop'.hint_char1({ inclusive_jump = true })<cr>", {})
   end
 
@@ -208,6 +201,12 @@ User.fn.do_mappings = function ()
     end)
     map("n", "<leader>fn", function()
       require("telescope").extensions.notify.notify()
+    end)
+    map("n", "<leader>r", function()
+      require("telescope.builtin").treesitter({
+        prompt_title = "File Symbols",
+        preview_title = false,
+      })
     end)
   end
 
