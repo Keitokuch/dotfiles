@@ -33,10 +33,6 @@ map sh <C-w>h
 map sk <C-w>k
 map sj <C-w>j
 map sp <C-w>p
-" map sl :set splitright<CR>:vsplit<CR>
-" map sh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
-" map sj :set splitbelow<CR>:split<CR>
-" map sk :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
 
 " Use <Meta-Arrow> or <Space><Arrow> to resize split window
 map <M-Up> :resize +5<CR>
@@ -60,7 +56,7 @@ map <leader>q :qall<CR>
 "" <Space Q> to force quit
 map <leader>Q :qall!<CR>
 "" <Space w> to close file
-map <silent> <leader>w :CloseBuffer<CR>
+map <silent> <leader>w :bd!<CR>
 "" <Space W> to force close file
 map <silent><expr> <leader>W buflisted(bufnr("%"))? ":bp<cr>:bd! #<cr>" : ":q!\<CR>"
 "" <Space Ctrl-W> to close window
