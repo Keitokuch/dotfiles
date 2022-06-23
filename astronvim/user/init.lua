@@ -134,6 +134,7 @@ local config = {
     },
     toggleterm = {
       open_mapping = [[<c-t>]],
+      direction = "horizontal",
     },
     ["gitsigns"] = {
       attach_to_untracked = false,
@@ -284,17 +285,19 @@ local config = {
       command = "source <afile> | PackerSync",
     })
 
-    vim.api.nvim_create_augroup("session_start", { clear = true })
+    vim.api.nvim_create_augroup("user_start", { clear = true })
+    vim.api.nvim_create_augroup("user_exit", { clear = true })
     -- Dir start
     if is_available "neovim-session-manager" then
       vim.api.nvim_del_augroup_by_name("neotree_start")
       local dir_start = function()
-        if vim.fn.argc() == 1 and not vim.g.started_with_stdin and vim.fn.isdirectory(vim.v.argv[2]) then
+        if vim.fn.argc() == 1 and not vim.g.started_with_stdin and vim.fn.isdirectory(vim.v.argv[2]) ~= 0 then
           vim.loop.chdir(vim.v.argv[2])
           vim.cmd[[%argd]]
           local session_utils = require('session_manager.utils')
           local cwd = vim.loop.cwd()
           local session_f = session_utils.dir_to_session_filename(cwd)
+          print(cwd)
           if session_f:exists() then
             require'session_manager'.load_current_dir_session()
             vim.defer_fn(function()
@@ -304,11 +307,12 @@ local config = {
             -- require("neo-tree.setup.netrw").hijack()
             vim.cmd[[bd]]
             vim.cmd[[Neotree focus]]
+            require'session_manager'.save_current_session()
           end
         end
       end
       vim.api.nvim_create_autocmd("VimEnter", {
-        group = "session_start",
+        group = "user_start",
         callback = dir_start
       })
     end
