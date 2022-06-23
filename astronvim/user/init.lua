@@ -271,12 +271,13 @@ local config = {
   polish = function()
     local is_available = astronvim.is_available
     User.fn.do_mappings()
-    User.fn.do_autocmds()
 
     -- Disable intro screen
     vim.cmd("set shortmess+=I")
 
     -- Set autocommands
+    User.fn.do_autocmds()
+
     vim.api.nvim_create_augroup("packer_conf", { clear = true })
     vim.api.nvim_create_autocmd("BufWritePost", {
       desc = "Sync packer after modifying plugins.lua",
@@ -287,16 +288,20 @@ local config = {
 
     vim.api.nvim_create_augroup("user_start", { clear = true })
     vim.api.nvim_create_augroup("user_exit", { clear = true })
-    -- Dir start
+    -- Handle session save/load during startup
     if is_available "neovim-session-manager" then
       vim.api.nvim_del_augroup_by_name("neotree_start")
+      local session_get_f = function (dir)
+        return require'session_manager.utils'.dir_to_session_filename(dir)
+      end
+
       local dir_start = function()
         if vim.fn.argc() == 1 and not vim.g.started_with_stdin and vim.fn.isdirectory(vim.v.argv[2]) ~= 0 then
+          -- Started with dir name
           vim.loop.chdir(vim.v.argv[2])
           vim.cmd[[%argd]]
-          local session_utils = require('session_manager.utils')
           local cwd = vim.loop.cwd()
-          local session_f = session_utils.dir_to_session_filename(cwd)
+          local session_f = session_get_f(cwd)
           print(cwd)
           if session_f:exists() then
             require'session_manager'.load_current_dir_session()
@@ -305,12 +310,31 @@ local config = {
             end, 10)
           else
             -- require("neo-tree.setup.netrw").hijack()
+            require'session_manager.utils'.is_session = true
             vim.cmd[[bd]]
             vim.cmd[[Neotree focus]]
-            require'session_manager'.save_current_session()
+          end
+        elseif vim.fn.argc() == 0 then
+          -- Started without argument
+          local cwd = vim.loop.cwd()
+          local session_f = session_get_f(cwd)
+          if session_f:exists() then
+            require'session_manager'.load_current_dir_session()
+            vim.defer_fn(function ()
+              -- Open tree when only a empty buffer is opened in session
+              if #vim.api.nvim_list_bufs() == 1 and vim.api.nvim_buf_line_count(0) == 1 then
+                  vim.cmd[[Neotree focus]]
+              end
+            end, 10)
+          else
+            -- Create new session for cwd during 0-arg start
+            print("New:", cwd)
+            require'session_manager.utils'.is_session = true
+            vim.cmd[[Neotree focus]]
           end
         end
       end
+
       vim.api.nvim_create_autocmd("VimEnter", {
         group = "user_start",
         callback = dir_start
