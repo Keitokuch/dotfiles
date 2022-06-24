@@ -26,7 +26,6 @@ parse_ostype() {
 
 deploy_one() {
     deploy_file=$1
-    # deploy_file_path=$CONFIG_PATH/${deploy_file}
     if [[ ! -f $deploy_file ]]; then
         echo "Deploy config $deploy_file not found"
         return
@@ -55,6 +54,7 @@ deploy_one() {
 
 do_deploy() {
     parse_ostype
+    cd $CONFIG_PATH/deploy
     if [[ $# -gt 0 ]]; then
         while (( $# > 0 ))
         do
@@ -63,7 +63,7 @@ do_deploy() {
         done
     else
         echo ">>> deploying all configs"
-        cd $CONFIG_PATH/deploy
+        ls
         for deploy_file in *.deploy; do
             deploy_one $deploy_file
         done
