@@ -1,0 +1,5 @@
+#! /bin/bash
+
+git clone https://github.com/keitokuch/jget.sh.git jget_git
+cd jget_git && ./install.sh
+cd .. && rm -rf jget_git
