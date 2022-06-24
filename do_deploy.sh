@@ -26,8 +26,8 @@ parse_ostype() {
 
 deploy_one() {
     deploy_file=$1
-    deploy_file_path=$CONFIG_PATH/${deploy_file}
-    if [[ ! -f $deploy_file_path ]]; then
+    # deploy_file_path=$CONFIG_PATH/${deploy_file}
+    if [[ ! -f $deploy_file ]]; then
         echo "Deploy config $deploy_file not found"
         return
     fi
@@ -48,8 +48,8 @@ deploy_one() {
         fi
         ln -sf $CONFIG_PATH/${src} ${dst}
         echo "softlink ${src} to ${dst}"
-    done <$deploy_file_path
-    after_file=$CONFIG_PATH/$deploy_file.after
+    done <$deploy_file
+    after_file=$deploy_file.after
     [[ -f $after_file ]] && . $after_file && echo ">>> exec $after_file"
 }
 
@@ -63,7 +63,7 @@ do_deploy() {
         done
     else
         echo ">>> deploying all configs"
-        cd $CONFIG_PATH
+        cd $CONFIG_PATH/deploy
         for deploy_file in *.deploy; do
             deploy_one $deploy_file
         done
