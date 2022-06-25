@@ -86,6 +86,10 @@ User.fn.do_mappings = function ()
   end
 
   if is_available "neo-tree.nvim" then
+    vim.api.nvim_create_user_command("ToggleTree", "Neotree action=show toggle=true", {})
+    vim.api.nvim_create_user_command("ShowTree", "Neotree action=show", {})
+    vim.api.nvim_create_user_command("FocusTree", "Neotree focus", {})
+    vim.api.nvim_create_user_command("TreeFindFile", "Neotree focus reveal", {})
     map("n", "<leader>d", "<cmd>Neotree action=show toggle=true<cr>", { desc = "Toggle Explorer" })
     map("n", "sf", function()
       if (vim.bo.filetype == "neo-tree") then
@@ -97,6 +101,22 @@ User.fn.do_mappings = function ()
     map("n", "sF", function()
         vim.cmd("Neotree focus reveal")
     end, { desc = "Explorer Focus File" })
+  end
+
+  if is_available("nvim-tree.lua") then
+    vim.api.nvim_create_user_command("ToggleTree", function() require"nvim-tree".toggle(false, true) end, { force = true })
+    vim.api.nvim_create_user_command("ShowTree", function() require"nvim-tree".toggle(false, true) end, { force = true })
+    vim.api.nvim_create_user_command("FocusTree", "NvimTreeFocus", { force = true })
+    vim.api.nvim_create_user_command("TreeFindFile", "Neotree focus reveal", { force = true })
+    map("n", "<leader>d", "<cmd>ToggleTree<cr>", { desc = "Toggle Explorer" })
+    map("n", "sf", function()
+      if (vim.bo.filetype == "NvimTree") then
+        vim.cmd("wincmd p")
+      else
+        vim.cmd("NvimTreeFocus")
+      end
+    end, { desc = "Toggle Explorer Focus" })
+    map("n", "sF", "<cmd>NvimTreeFindFile<cr>", { desc = "Explorer Focus File" })
   end
 
   if is_available("bufferline.nvim") then
@@ -124,7 +144,7 @@ User.fn.do_mappings = function ()
     vim.api.nvim_set_keymap('o', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
     vim.api.nvim_set_keymap('x', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true})<cr>", {})
     vim.api.nvim_set_keymap('x', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true})<cr>", {})
-    vim.api.nvim_set_keymap('n', ';', "<cmd> lua require'hop'.hint_char1()<cr>", {})
+    vim.api.nvim_set_keymap('n', ';', "<cmd> lua require'hop'.hint_char1({multi_windows=true})<cr>", {})
     vim.api.nvim_set_keymap('v', ';', "<cmd> lua require'hop'.hint_char1()<cr>", {})
     vim.api.nvim_set_keymap('o', ';', "<cmd> lua require'hop'.hint_char1({ inclusive_jump = true })<cr>", {})
   end
@@ -208,6 +228,9 @@ User.fn.do_mappings = function ()
         preview_title = false,
       })
     end)
+    map("n", "\\d", function()
+      require("telescope.builtin").diagnostics({ bufnr = 0 })
+    end, { desc = "Search diagnostics" })
   end
 
   if is_available "Comment.nvim" then
