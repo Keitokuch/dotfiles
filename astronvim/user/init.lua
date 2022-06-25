@@ -29,9 +29,9 @@ local config = {
   -- Set colorscheme
   -- colorscheme = "nordfox",
   -- colorscheme = "dawnfox",
-  colorscheme = "default_theme",
+  -- colorscheme = "default_theme",
   -- colorscheme = "tokyonight",
-  -- colorscheme = "nightfox",
+  colorscheme = "nightfox",
 
   -- set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
@@ -71,9 +71,9 @@ local config = {
       hop = false,
       indent_blankline = true,
       lightspeed = false,
-      ["neo-tree"] = true,
+      ["neo-tree"] = false,
       notify = true,
-      ["nvim-tree"] = false,
+      ["nvim-tree"] = true,
       ["nvim-web-devicons"] = true,
       rainbow = true,
       symbols_outline = false,
@@ -104,16 +104,16 @@ local config = {
         null_ls.builtins.diagnostics.rubocop,
       }
       -- set up null-ls's on_attach function
-      config.on_attach = function(client)
-        -- NOTE: You can remove this on attach function to disable format on save
-        if client.resolved_capabilities.document_formatting then
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            desc = "Auto format before save",
-            pattern = "<buffer>",
-            callback = vim.lsp.buf.formatting_sync,
-          })
-        end
-      end
+      -- config.on_attach = function(client)
+      --   -- NOTE: You can remove this on attach function to disable format on save
+      --   if client.resolved_capabilities.document_formatting then
+      --     vim.api.nvim_create_autocmd("BufWritePre", {
+      --       desc = "Auto format before save",
+      --       pattern = "<buffer>",
+      --       callback = vim.lsp.buf.formatting_sync,
+      --     })
+      --   end
+      -- end
       return config -- return final config table
     end,
     treesitter = {
@@ -138,6 +138,10 @@ local config = {
     },
     ["gitsigns"] = {
       attach_to_untracked = false,
+    },
+    notify = {
+      stages = "fade",
+      timeout = 1000,
     }
   },
 
@@ -196,9 +200,21 @@ local config = {
       map("n", "\\a", function()
         vim.lsp.buf.code_action()
       end, { desc = "LSP code action", buffer = bufnr })
+      map("n", "\\i", function()
+        vim.notify("Organize imports", "info", { title = "LSP" })
+        vim.lsp.buf.code_action({
+          filter = function(code_action) return code_action.kind == "source.organizeImports" end,
+          apply = true,
+        })
+      end, { desc = "Organize imports", buffer = bufnr })
       map("n", "\\f", function()
-        vim.lsp.buf.formatting_sync()
+        vim.notify("Format code", "info", { title = "LSP" })
+        vim.lsp.buf.format()
       end, { desc = "Format code", buffer = bufnr })
+      map("x", "\\f", function()
+        vim.cmd("visual!")
+        vim.lsp.buf.range_formatting()
+      end, { desc = "Format selected code", buffer = bufnr })
       map("n", "\\h", function()
         vim.lsp.buf.signature_help()
       end, { desc = "Signature help", buffer = bufnr })
@@ -217,9 +233,9 @@ local config = {
       map("n", "gr", function()
         vim.lsp.buf.references()
       end, { desc = "References of current symbol", buffer = bufnr })
-      map("n", "\\d", function()
-        vim.diagnostic.open_float()
-      end, { desc = "Hover diagnostics", buffer = bufnr })
+      -- map("n", "\\d", function()
+      --   vim.diagnostic.open_float()
+      -- end, { desc = "Hover diagnostics", buffer = bufnr })
       map("n", "[d", function()
         vim.diagnostic.goto_prev()
       end, { desc = "Previous diagnostic", buffer = bufnr })
@@ -245,6 +261,14 @@ local config = {
 
     -- Add overrides for LSP server settings, the keys are the name of the server
     ["server-settings"] = {
+      pyright = {
+        on_attach = function (client, bufnr)
+          map("n", "\\i", function()
+            vim.notify("Organize imports", "info", { title = "Pyright" })
+            vim.cmd[[PyrightOrganizeImports]]
+          end, { desc = "Organize imports", buffer = bufnr })
+        end
+      }
       -- example for addings schemas to yamlls
       -- yamlls = {
       --   settings = {
@@ -288,9 +312,18 @@ local config = {
 
     vim.api.nvim_create_augroup("user_start", { clear = true })
     vim.api.nvim_create_augroup("user_exit", { clear = true })
+    local has_neotree = is_available("neo-tree")
+    local has_nvimtree = is_available("nvim-tree.lua")
     -- Handle session save/load during startup
     if is_available "neovim-session-manager" then
-      vim.api.nvim_del_augroup_by_name("neotree_start")
+      if has_neotree then
+        vim.api.nvim_del_augroup_by_name("neotree_start")
+      end
+      local tree_show, tree_focus = "", ""
+      tree_show = has_neotree and "Neotree show" or tree_show
+      tree_focus = has_neotree and "Neotree focus" or tree_focus
+      tree_show = has_nvimtree and "NvimTreeOpen" or tree_show
+      tree_focus = has_neotree and "NvimTreeFocus" or tree_focus
       local session_get_f = function (dir)
         return require'session_manager.utils'.dir_to_session_filename(dir)
       end
@@ -306,13 +339,13 @@ local config = {
           if session_f:exists() then
             require'session_manager'.load_current_dir_session()
             vim.defer_fn(function()
-              vim.cmd[[Neotree show]]
+              vim.cmd("ShowTree")
             end, 10)
           else
             -- require("neo-tree.setup.netrw").hijack()
             require'session_manager.utils'.is_session = true
             vim.cmd[[bd]]
-            vim.cmd[[Neotree focus]]
+            vim.cmd("FocusTree")
           end
         elseif vim.fn.argc() == 0 then
           -- Started without argument
@@ -323,14 +356,14 @@ local config = {
             vim.defer_fn(function ()
               -- Open tree when only a empty buffer is opened in session
               if #vim.api.nvim_list_bufs() == 1 and vim.api.nvim_buf_line_count(0) == 1 then
-                  vim.cmd[[Neotree focus]]
+                vim.cmd("FocusTree")
               end
             end, 10)
           else
             -- Create new session for cwd during 0-arg start
             print("New:", cwd)
             require'session_manager.utils'.is_session = true
-            vim.cmd[[Neotree focus]]
+            vim.cmd("FocusTree")
           end
         end
       end

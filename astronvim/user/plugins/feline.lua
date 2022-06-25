@@ -11,7 +11,12 @@ return {
           { provider = provider.spacer(2) },
           { provider = "git_branch", hl = hl.fg("Conditional", { fg = C.purple_1, style = "bold" }), icon = " " },
           { provider = provider.spacer(3), enabled = conditional.git_available },
-          { provider = { name = "file_info", opts = { type = "unique" } } },
+          { provider = { name = "file_info", opts = {
+              filetype_icon = false,
+              type = "relative",
+              file_modified_icon = false,
+            }}
+          },
           { provider = provider.spacer(2), enabled = conditional.has_filetype },
           { provider = "git_diff_added", hl = hl.fg("GitSignsAdd", { fg = C.green }), icon = "  " },
           { provider = "git_diff_changed", hl = hl.fg("GitSignsChange", { fg = C.orange_1 }), icon = " 柳" },
@@ -24,7 +29,7 @@ return {
         },
         {
           { provider = provider.lsp_progress, enabled = conditional.bar_width() },
-          { provider = { name = "file_type", opts = { filetype_icon = false, case = "lowercase" } }, enabled = conditional.has_filetype },
+          { provider = { name = "file_type", opts = { filetype_icon = true, case = "lowercase" } }, enabled = conditional.has_filetype },
           { provider = provider.spacer(1), enabled = conditional.has_filetype },
           { provider = provider.lsp_client_names(true), short_provider = provider.lsp_client_names(), enabled = conditional.bar_width(), icon = "   " },
           { provider = provider.spacer(2), enabled = conditional.bar_width() },

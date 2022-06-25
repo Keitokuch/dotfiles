@@ -4,7 +4,10 @@ return {
   ["goolord/alpha-nvim"] = { disable = true },
   ["folke/which-key.nvim"] = { disable = true },
   ["akinsho/bufferline.nvim"] = { disable = true },
+  ["nvim-neo-tree/neo-tree.nvim"] = { disable = true },
+
   -- ["neovim/nvim-lspconfig"] = { disable = true },
+
   ["Shatur/neovim-session-manager"] = {
     event = "VimEnter",
     config = function()
@@ -21,6 +24,16 @@ return {
   },
 
   -- Added plugins
+  {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icons
+    },
+    tag = 'nightly',
+    config = function ()
+      require("user.plugins.nvim-tree")
+    end
+  },
   { 'lfv89/vim-interestingwords' },
   {
     'phaazon/hop.nvim',
@@ -28,7 +41,8 @@ return {
     event = "VimEnter",
     config = function()
       require('hop').setup({
-        keys = 'asdfghjkl;qwertyuiopcvnm'
+        keys = 'asdfghjkl;wertyuiopcvnm',
+        multi_windows = true
       })
     end,
   },
