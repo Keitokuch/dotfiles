@@ -1,6 +1,5 @@
 local get_hex = require('cokeline/utils').get_hex
 local C = require("default_theme.colors")
--- local mappings = require('cokeline/mappings')
 
 local str_rep = string.rep
 
@@ -161,7 +160,7 @@ require('cokeline').setup({
   },
 
   sidebar = {
-    filetype = 'neo-tree',
+    filetype =  User.tree_filetype,
     components = {
       {
         text = "",
