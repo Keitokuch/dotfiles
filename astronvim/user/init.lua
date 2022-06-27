@@ -2,7 +2,10 @@ User = {
   fn = {}
 }
 
-require("user.setup")
+local ok, msg = pcall(require, "user.setup")
+if not ok then
+  print("Failed in user setup:", msg)
+end
 
 local map = vim.keymap.set
 
