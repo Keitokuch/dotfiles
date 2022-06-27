@@ -38,9 +38,16 @@ require("nvim-tree").setup({
     icons = {
       git_placement = "after",
       show = {
-        git = true,
+        git = false,
       }
     },
+  },
+  actions = {
+    open_file = {
+      window_picker = {
+        enable = false,
+      }
+    }
   },
   filters = {
     dotfiles = true,

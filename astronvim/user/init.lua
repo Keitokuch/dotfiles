@@ -2,8 +2,7 @@ User = {
   fn = {}
 }
 
-require'user.mappings'
-require'user.autocmds'
+require("user.setup")
 
 local map = vim.keymap.set
 
@@ -29,9 +28,9 @@ local config = {
   -- Set colorscheme
   -- colorscheme = "nordfox",
   -- colorscheme = "dawnfox",
-  -- colorscheme = "default_theme",
+  colorscheme = "default_theme",
   -- colorscheme = "tokyonight",
-  colorscheme = "nightfox",
+  -- colorscheme = "nightfox",
 
   -- set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
@@ -39,6 +38,7 @@ local config = {
       relativenumber = true, -- sets vim.opt.relativenumber
       timeoutlen = 500, -- Length of time to wait for a mapped sequence
       wrap = true, -- Disable wrapping of lines longer than the width of window
+      scrolloff=20
     },
     g = {
       mapleader = " ", -- sets vim.g.mapleader
@@ -124,12 +124,18 @@ local config = {
     },
     packer = {
       compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
+      display = {
+        non_interactive = false,
+      }
     },
     cinnamon = {
-      default_keymaps = false
+      default_keymaps = false,
+      centered = false,
+      horizontal_scroll = false,
+      default_delay = 5
     },
     ["better_escape"] = {
-      mapping = {"jj"}, -- a table with mappings to use
+      mapping = { "jj" }, -- a table with mappings to use
       clear_empty_lines = true,
     },
     toggleterm = {
@@ -262,10 +268,10 @@ local config = {
     -- Add overrides for LSP server settings, the keys are the name of the server
     ["server-settings"] = {
       pyright = {
-        on_attach = function (client, bufnr)
+        on_attach = function(client, bufnr)
           map("n", "\\i", function()
             vim.notify("Organize imports", "info", { title = "Pyright" })
-            vim.cmd[[PyrightOrganizeImports]]
+            vim.cmd [[PyrightOrganizeImports]]
           end, { desc = "Organize imports", buffer = bufnr })
         end
       }
@@ -293,6 +299,9 @@ local config = {
   -- This function is run last
   -- good place to configure mappings and vim options
   polish = function()
+    require 'user.mappings'
+    require 'user.autocmds'
+
     local is_available = astronvim.is_available
     User.fn.do_mappings()
 
@@ -324,27 +333,27 @@ local config = {
       tree_focus = has_neotree and "Neotree focus" or tree_focus
       tree_show = has_nvimtree and "NvimTreeOpen" or tree_show
       tree_focus = has_neotree and "NvimTreeFocus" or tree_focus
-      local session_get_f = function (dir)
-        return require'session_manager.utils'.dir_to_session_filename(dir)
+      local session_get_f = function(dir)
+        return require 'session_manager.utils'.dir_to_session_filename(dir)
       end
 
       local dir_start = function()
         if vim.fn.argc() == 1 and not vim.g.started_with_stdin and vim.fn.isdirectory(vim.v.argv[2]) ~= 0 then
           -- Started with dir name
           vim.loop.chdir(vim.v.argv[2])
-          vim.cmd[[%argd]]
+          vim.cmd [[%argd]]
           local cwd = vim.loop.cwd()
           local session_f = session_get_f(cwd)
           print(cwd)
           if session_f:exists() then
-            require'session_manager'.load_current_dir_session()
+            require 'session_manager'.load_current_dir_session()
             vim.defer_fn(function()
               vim.cmd("ShowTree")
-            end, 10)
+            end, 30)
           else
             -- require("neo-tree.setup.netrw").hijack()
-            require'session_manager.utils'.is_session = true
-            vim.cmd[[bd]]
+            require 'session_manager.utils'.is_session = true
+            vim.cmd [[bd]]
             vim.cmd("FocusTree")
           end
         elseif vim.fn.argc() == 0 then
@@ -352,8 +361,8 @@ local config = {
           local cwd = vim.loop.cwd()
           local session_f = session_get_f(cwd)
           if session_f:exists() then
-            require'session_manager'.load_current_dir_session()
-            vim.defer_fn(function ()
+            require 'session_manager'.load_current_dir_session()
+            vim.defer_fn(function()
               -- Open tree when only a empty buffer is opened in session
               if #vim.api.nvim_list_bufs() == 1 and vim.api.nvim_buf_line_count(0) == 1 then
                 vim.cmd("FocusTree")
@@ -362,7 +371,7 @@ local config = {
           else
             -- Create new session for cwd during 0-arg start
             print("New:", cwd)
-            require'session_manager.utils'.is_session = true
+            require 'session_manager.utils'.is_session = true
             vim.cmd("FocusTree")
           end
         end

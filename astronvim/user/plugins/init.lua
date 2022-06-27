@@ -4,7 +4,7 @@ return {
   ["goolord/alpha-nvim"] = { disable = true },
   ["folke/which-key.nvim"] = { disable = true },
   ["akinsho/bufferline.nvim"] = { disable = true },
-  ["nvim-neo-tree/neo-tree.nvim"] = { disable = true },
+  ["nvim-neo-tree/neo-tree.nvim"] = { disable = not User.neo_tree },
 
   -- ["neovim/nvim-lspconfig"] = { disable = true },
 
@@ -22,13 +22,17 @@ return {
       require "configs.gitsigns"
     end,
   },
+  ["max397574/better-escape.nvim"] = {
+    event = "BufEnter",
+    config = function()
+      require "configs.better_escape"
+    end,
+  },
 
   -- Added plugins
   {
     'kyazdani42/nvim-tree.lua',
-    requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icons
-    },
+    -- disable = not User.nvim_tree,
     tag = 'nightly',
     config = function ()
       require("user.plugins.nvim-tree")
@@ -60,7 +64,7 @@ return {
   },
   {
     'noib3/nvim-cokeline',
-    after = "nvim-web-devicons",
+    after =  "nvim-web-devicons",
     config = function()
       require("user.plugins.cokeline")
     end

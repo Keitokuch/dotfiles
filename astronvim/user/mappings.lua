@@ -35,9 +35,9 @@ User.fn.do_mappings = function ()
   map("n", "<leader>Q", ":qa!<CR>", { desc = "Force Quit" })
   map("n", "<leader><C-w>", "<cmd>close<cr>", { desc = "Close window" })
 
-  map({"n", "v"}, "<C-d>", "<Cmd>lua Scroll('15j', 1, 1)<CR>")
-  map({"n", "v"}, "<C-i>", "<Cmd>lua Scroll('15k', 1, 1)<CR>")
-  map({"n", "v"}, "<TAB>", "<Cmd>lua Scroll('15k', 1, 1)<CR>")
+  map({"n", "v"}, "<C-d>", "<Cmd>lua Scroll('15j', 0, 0)<CR>")
+  map({"n", "v"}, "<C-i>", "<Cmd>lua Scroll('15k', 0, 0)<CR>")
+  map({"n", "v"}, "<TAB>", "<Cmd>lua Scroll('15k', 0, 0)<CR>")
 
   map("n", "<C-p>", "<C-]>")
   map("n", "<C-u>", "<C-i>")
@@ -104,8 +104,8 @@ User.fn.do_mappings = function ()
   end
 
   if is_available("nvim-tree.lua") then
-    vim.api.nvim_create_user_command("ToggleTree", function() require"nvim-tree".toggle(false, true) end, { force = true })
-    vim.api.nvim_create_user_command("ShowTree", function() require"nvim-tree".toggle(false, true) end, { force = true })
+    vim.api.nvim_create_user_command("ToggleTree", function() require"nvim-tree".toggle(false, true) end, {})
+    vim.api.nvim_create_user_command("ShowTree", function() require"nvim-tree".toggle(false, true) end, {})
     vim.api.nvim_create_user_command("FocusTree", "NvimTreeFocus", { force = true })
     vim.api.nvim_create_user_command("TreeFindFile", "Neotree focus reveal", { force = true })
     map("n", "<leader>d", "<cmd>ToggleTree<cr>", { desc = "Toggle Explorer" })
