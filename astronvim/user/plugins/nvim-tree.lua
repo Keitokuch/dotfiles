@@ -38,7 +38,7 @@ require("nvim-tree").setup({
     icons = {
       git_placement = "after",
       show = {
-        git = false,
+        git = true,
       }
     },
   },
