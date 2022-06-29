@@ -229,7 +229,10 @@ User.fn.do_mappings = function ()
       })
     end)
     map("n", "\\d", function()
-      require("telescope.builtin").diagnostics({ bufnr = 0 })
+      require("telescope.builtin").diagnostics({
+        bufnr = 0,
+        initial_mode = 'normal'
+    })
     end, { desc = "Search diagnostics" })
   end
 
