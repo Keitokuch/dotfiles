@@ -69,6 +69,19 @@ return {
       require("user.plugins.cokeline")
     end
   },
+  {
+    'ludovicchabant/vim-gutentags',
+    config = function()
+      require('user.plugins.gutentags')
+    end
+  },
+  {
+    'majutsushi/tagbar',
+    cmd = { 'TagbarToggle', 'TagbarOpen', 'TagbarShowTag' },
+    config = function ()
+      require('user.plugins.tagbar')
+    end
+  },
 
   -- ColorSchemes
   {

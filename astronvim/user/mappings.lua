@@ -259,6 +259,17 @@ User.fn.do_mappings = function ()
     map("x", "gs", "<Plug>VgSurround")
     map("x", "S", "<Plug>VgSurround")
   end
+
+  if is_available("tagbar") then
+    map("n", "tt", "<CMD>TagbarToggle<CR>")
+    map("n", "st", function()
+      if (vim.bo.filetype == "tagbar") then
+        vim.cmd("wincmd p")
+      else
+        vim.cmd("TagbarOpen fj")
+      end
+    end)
+  end
 end
 
 -- As a module overwrite default maps
