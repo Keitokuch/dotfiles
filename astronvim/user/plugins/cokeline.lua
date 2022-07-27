@@ -82,7 +82,6 @@ local components = {
     fg = function(buffer)
       return
       (buffer.diagnostics.errors ~= 0 and errors_fg)
-      or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
       or nil
     end,
     style = function(buffer)
