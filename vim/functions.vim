@@ -30,7 +30,7 @@ endfu
 
 let s:session_file_suffix = has('nvim') ? '.Session.nvim' : '.Session.vim'
 let s:session_dir = g:config_path . 'sessions'
-exe mkdir(s:session_dir, 'p')
+call mkdir(s:session_dir, 'p')
 
 fu! s:session_file_path()
     let l:session_name = substitute(g:START_DIR, "/", "", "")

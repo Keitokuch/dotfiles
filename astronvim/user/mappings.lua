@@ -117,6 +117,35 @@ User.fn.do_mappings = function ()
       end
     end, { desc = "Toggle Explorer Focus" })
     map("n", "sF", "<cmd>NvimTreeFindFile<cr>", { desc = "Explorer Focus File" })
+    User.vars.tree = {
+      full = false,
+      size = 26,
+      restore_cmd = "",
+    }
+    vim.api.nvim_create_autocmd("BufLeave", {
+      pattern = "NvimTree*",
+      callback = function()
+        User.vars.tree.full = false
+      end
+    })
+    vim.api.nvim_create_autocmd("Filetype", {
+      desc = "Map <a> for tree window zoom",
+      pattern = "NvimTree",
+      callback = function()
+        map("n", "a", function()
+          if not User.vars.tree.full then
+            User.vars.tree.size = vim.api.nvim_win_get_width(0)
+            User.vars.tree.restore_cmd = vim.fn.winrestcmd()
+            vim.cmd("vert resize")
+            User.vars.tree.full = true
+          else
+            -- vim.cmd("vert resize "..User.vars.tree.size)
+            vim.cmd(User.vars.tree.restore_cmd)
+            User.vars.tree.full = false
+          end
+        end, { buffer = true })
+      end
+    })
   end
 
   if is_available("bufferline.nvim") then
@@ -194,6 +223,12 @@ User.fn.do_mappings = function ()
         follow = true,
       })
     end, { desc = "Search files" })
+    map("n", "<leader>j", function()
+      require("telescope.builtin").jumplist({
+        initial_mode = 'normal',
+        fname_width = 80
+      })
+    end, { desc = "Jumplist" })
     map("n", "<C-f>", function()
       require("telescope.builtin").live_grep({
         no_ignore = true,
@@ -234,6 +269,16 @@ User.fn.do_mappings = function ()
         initial_mode = 'normal'
     })
     end, { desc = "Search diagnostics" })
+    map("n", "gr", function()
+      require("telescope.builtin").lsp_references({
+        include_declaration = false,
+        include_current_line = false,
+        initial_mode = 'normal'
+      })
+    end, { desc = "References of current symbol" })
+    map("n", "gd", function()
+      require("telescope.builtin").lsp_definitions()
+    end, { desc = "Show the definition of current symbol" })
   end
 
   if is_available "Comment.nvim" then

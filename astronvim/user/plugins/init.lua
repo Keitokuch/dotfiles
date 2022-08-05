@@ -71,6 +71,7 @@ return {
   },
   {
     'ludovicchabant/vim-gutentags',
+    disable=true,
     config = function()
       require('user.plugins.gutentags')
     end
