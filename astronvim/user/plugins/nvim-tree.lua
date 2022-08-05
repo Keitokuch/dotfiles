@@ -1,6 +1,7 @@
 require("nvim-tree").setup({
   view = {
-    adaptive_size = true,
+    width = 26,
+    adaptive_size = false,
     mappings = {
       custom_only = true,
       list = {
@@ -35,12 +36,20 @@ require("nvim-tree").setup({
   },
   renderer = {
     group_empty = true,
+    highlight_opened_files = "name",
+    indent_markers = {
+      enable = false,
+    },
     icons = {
       git_placement = "after",
       show = {
         git = true,
+        folder = false,
       }
     },
+  },
+  update_focused_file = {
+    enable = true,
   },
   actions = {
     open_file = {

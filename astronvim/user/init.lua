@@ -1,5 +1,6 @@
 User = {
-  fn = {}
+  fn = {},
+  vars = {}
 }
 
 local ok, msg = pcall(require, "user.setup")
@@ -236,12 +237,12 @@ local config = {
       map("n", "gI", function()
         vim.lsp.buf.implementation()
       end, { desc = "Implementation of current symbol", buffer = bufnr })
-      map("n", "gd", function()
-        vim.lsp.buf.definition()
-      end, { desc = "Show the definition of current symbol", buffer = bufnr })
-      map("n", "gr", function()
-        vim.lsp.buf.references()
-      end, { desc = "References of current symbol", buffer = bufnr })
+      -- map("n", "gd", function()
+      --   vim.lsp.buf.definition()
+      -- end, { desc = "Show the definition of current symbol", buffer = bufnr })
+      -- map("n", "gr", function()
+      --   vim.lsp.buf.references()
+      -- end, { desc = "References of current symbol", buffer = bufnr })
       -- map("n", "\\d", function()
       --   vim.diagnostic.open_float()
       -- end, { desc = "Hover diagnostics", buffer = bufnr })

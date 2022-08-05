@@ -10,7 +10,7 @@ local comments_fg = get_hex('Comment', 'fg')
 local errors_fg = get_hex('DiagnosticError', 'fg')
 local warnings_fg = get_hex('DiagnosticWarn', 'fg')
 
-local buffer_width = 25
+local buffer_width = 30
 local min_buffer_width = buffer_width
 
 local components = {
