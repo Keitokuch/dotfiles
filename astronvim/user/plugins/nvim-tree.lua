@@ -1,6 +1,6 @@
 require("nvim-tree").setup({
   view = {
-    width = 26,
+    width = 28,
     adaptive_size = false,
     mappings = {
       custom_only = true,

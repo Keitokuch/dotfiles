@@ -196,69 +196,12 @@ local config = {
     },
   },
 
-  -- Extend LSP configuration
   lsp = {
-    -- enable servers that you already have installed without lsp-installer
+    -- enable servers that already installed without lsp-installer
     servers = {
       -- "pyright"
     },
     -- add to the server on_attach function
-    on_attach = function(client, bufnr)
-      map("n", "K", function()
-        vim.lsp.buf.hover()
-      end, { desc = "Hover symbol details", buffer = bufnr })
-      map("n", "\\a", function()
-        vim.lsp.buf.code_action()
-      end, { desc = "LSP code action", buffer = bufnr })
-      map("n", "\\i", function()
-        vim.notify("Organize imports", "info", { title = "LSP" })
-        vim.lsp.buf.code_action({
-          filter = function(code_action) return code_action.kind == "source.organizeImports" end,
-          apply = true,
-        })
-      end, { desc = "Organize imports", buffer = bufnr })
-      map("n", "\\f", function()
-        vim.notify("Format code", "info", { title = "LSP" })
-        vim.lsp.buf.format()
-      end, { desc = "Format code", buffer = bufnr })
-      map("x", "\\f", function()
-        vim.cmd("visual!")
-        vim.lsp.buf.range_formatting()
-      end, { desc = "Format selected code", buffer = bufnr })
-      map("n", "\\h", function()
-        vim.lsp.buf.signature_help()
-      end, { desc = "Signature help", buffer = bufnr })
-      map("n", "\\rn", function()
-        vim.lsp.buf.rename()
-      end, { desc = "Rename current symbol", buffer = bufnr })
-      map("n", "gD", function()
-        vim.lsp.buf.declaration()
-      end, { desc = "Declaration of current symbol", buffer = bufnr })
-      map("n", "gI", function()
-        vim.lsp.buf.implementation()
-      end, { desc = "Implementation of current symbol", buffer = bufnr })
-      -- map("n", "gd", function()
-      --   vim.lsp.buf.definition()
-      -- end, { desc = "Show the definition of current symbol", buffer = bufnr })
-      -- map("n", "gr", function()
-      --   vim.lsp.buf.references()
-      -- end, { desc = "References of current symbol", buffer = bufnr })
-      -- map("n", "\\d", function()
-      --   vim.diagnostic.open_float()
-      -- end, { desc = "Hover diagnostics", buffer = bufnr })
-      map("n", "[d", function()
-        vim.diagnostic.goto_prev()
-      end, { desc = "Previous diagnostic", buffer = bufnr })
-      map("n", "]d", function()
-        vim.diagnostic.goto_next()
-      end, { desc = "Next diagnostic", buffer = bufnr })
-      map("n", "gl", function()
-        vim.diagnostic.open_float()
-      end, { desc = "Hover diagnostics", buffer = bufnr })
-      vim.api.nvim_buf_create_user_command(bufnr, "Format", function()
-        vim.lsp.buf.formatting()
-      end, { desc = "Format file with LSP" })
-    end,
 
     -- override the lsp installer server-registration function
     -- server_registration = function(server, opts)
@@ -269,44 +212,6 @@ local config = {
       return {}
     end,
 
-    -- Add overrides for LSP server settings, the keys are the name of the server
-    ["server-settings"] = {
-      pyright = {
-        on_attach = function(client, bufnr)
-          map("n", "\\i", function()
-            vim.notify("Organize imports", "info", { title = "Pyright" })
-            vim.cmd [[PyrightOrganizeImports]]
-          end, { desc = "Organize imports", buffer = bufnr })
-        end
-      },
-      pylsp = {
-        settings = {
-          pylsp = {
-            plugins = {
-              flake8 = {enabled=true, maxLineLength=100, ignore={'E203'}},
-              pylint = {args = {'--ignore=E231', '-'}, enabled=true, debounce=200},
-              pycodestyle={
-                enabled=false,
-                -- ignore={'E501', 'E231'},
-                maxLineLength=100},
-              },
-              yapf={enabled=true}
-            }
-          }
-      }
-      -- example for addings schemas to yamlls
-      -- yamlls = {
-      --   settings = {
-      --     yaml = {
-      --       schemas = {
-      --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
-      --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-      --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-      --       },
-      --     },
-      --   },
-      -- },
-    },
   },
 
   -- Diagnostics configuration (for vim.diagnostics.config({}))
