@@ -22,6 +22,19 @@
 local map = vim.keymap.set
 local unmap = function(mode, key) vim.keymap.set(mode, key, "<NOP>") end
 
+function User.fn.get_visual_selection()
+	vim.cmd('noau normal! "vy"')
+	local text = vim.fn.getreg('v')
+	vim.fn.setreg('v', {})
+
+	text = string.gsub(text, "\n", "")
+	if #text > 0 then
+		return text
+	else
+		return ''
+	end
+end
+
 User.fn.do_mappings = function ()
   local is_available = astronvim.is_available
 
@@ -233,6 +246,14 @@ User.fn.do_mappings = function ()
       require("telescope.builtin").live_grep({
         no_ignore = true,
         prompt_title = "Find String"
+      })
+    end, { desc = "Find String" })
+    map("x", "<C-f>", function()
+    	local text = User.fn.get_visual_selection()
+      require("telescope.builtin").live_grep({
+        no_ignore = true,
+        prompt_title = "Find String",
+        default_text = text
       })
     end, { desc = "Find String" })
     map("n", "?", function()
