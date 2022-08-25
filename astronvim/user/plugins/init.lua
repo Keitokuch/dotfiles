@@ -28,6 +28,11 @@ return {
       require "configs.better_escape"
     end,
   },
+  -- Smooth scrolling
+  ["declancm/cinnamon.nvim"] = {
+    event = "VimEnter",
+    config = function() require "configs.cinnamon" end,
+  },
 
   -- Added plugins
   {
