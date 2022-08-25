@@ -304,15 +304,15 @@ User.fn.do_mappings = function ()
 
   if is_available "Comment.nvim" then
     map("n", "<leader>cc", function()
-      require('Comment.api').comment_current_linewise()
+      require('Comment.api').comment.linewise.current()
     end)
     map("v", "<leader>cc",
-    "<esc><cmd>lua require('Comment.api').comment_linewise_op(vim.fn.visualmode())<cr>")
+    "<esc><cmd>lua require('Comment.api').comment.linewise(vim.fn.visualmode())<cr>")
     map("n", "<leader>cu", function()
-      require('Comment.api').uncomment_current_linewise()
+      require('Comment.api').uncomment.linewise.current()
     end)
     map("v", "<leader>cu",
-    "<esc><cmd>lua require('Comment.api').uncomment_linewise_op(vim.fn.visualmode())<cr>")
+    "<esc><cmd>lua require('Comment.api').uncomment.linewise.current(vim.fn.visualmode())<cr>")
   end
 
   if is_available "vim-surround" then
