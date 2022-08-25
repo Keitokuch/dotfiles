@@ -2,10 +2,11 @@
 	editor = nvim
 [alias]
     au = add -u
-	st = status
+		st = status
     cmm = commit -m
     rb = rebase -i @{u}
     pl = pull
     ps = push
+    ca = commit --amend
 [color]
     ui = auto

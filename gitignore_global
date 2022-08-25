@@ -19,6 +19,7 @@ tags
 # Python
 *.pyc
 __pycache__/
+pyproject.toml
 
 # tex
 .latex_aux/
