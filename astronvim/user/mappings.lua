@@ -69,8 +69,10 @@ User.fn.do_mappings = function ()
   map("v", "<C-c>", "<esc>")
 
   -- Split windows
-  map("n", "s_", "<cmd>new<cr>")
-  map("n", "s|", "<cmd>vnew<cr>")
+  -- map("n", "s_", "<cmd>new<cr>")
+  -- map("n", "s|", "<cmd>vnew<cr>")
+  map("n", "s_", "<cmd>split<cr>")
+  map("n", "s|", "<cmd>vsplit<cr>")
   map("n", "sl", "<C-w>l")
   map("n", "sh", "<C-w>h")
   map("n", "sk", "<C-w>k")
