@@ -49,7 +49,9 @@ deploy_one() {
         echo "softlink ${src} to ${dst}"
     done <$deploy_file
     after_file=$deploy_file.after
-    [[ -f $after_file ]] && . $after_file && echo ">>> exec $after_file"
+    cd $CONFIG_PATH
+    [[ -f deploy/$after_file ]] && . deploy/$after_file && echo ">>> exec $after_file"
+    cd deploy
 }
 
 do_deploy() {
