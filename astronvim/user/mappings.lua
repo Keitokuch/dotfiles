@@ -1,6 +1,20 @@
 local utils = require "astronvim.utils"
 local is_available = utils.is_available
 local map = vim.keymap.set
+
+local function get_visual_selection()
+	vim.cmd('noau normal! "vy"')
+	local text = vim.fn.getreg('v')
+	vim.fn.setreg('v', {})
+
+	text = string.gsub(text, "\n", "")
+	if #text > 0 then
+		return text
+	else
+		return ''
+	end
+end
+
 -- Mapping data with "desc" stored directly by vim.keymap.set().
 --
 -- Please use this mappings table to set keyboard mapping since this is the
@@ -169,8 +183,8 @@ if is_available "telescope.nvim" then
       prompt_title = "Find String"
     })
   end, desc = "Find String" }
-  maps.x["<C-f>"] = { function()
-    local text = User.fn.get_visual_selection()
+  maps.v["<C-f>"] = { function()
+    local text = get_visual_selection()
     require("telescope.builtin").live_grep({
       no_ignore = true,
       prompt_title = "Find String",
