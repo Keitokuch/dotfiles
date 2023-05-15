@@ -1,248 +1,90 @@
-User = {
-  fn = {},
-  vars = {}
-}
+local utils = require "astronvim.utils"
+local is_available = utils.is_available
 
-local ok, msg = pcall(require, "user.setup")
-if not ok then
-  print("Failed in user setup:", msg)
-end
-
-local map = vim.keymap.set
-
-local config = {
-
+return {
   -- Configure AstroNvim updates
   updater = {
     remote = "origin", -- remote to use
-    channel = "nightly", -- "stable" or "nightly"
+    channel = "stable", -- "stable" or "nightly"
     version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-    branch = "main", -- branch name (NIGHTLY ONLY)
+    branch = "nightly", -- branch name (NIGHTLY ONLY)
     commit = nil, -- commit hash (NIGHTLY ONLY)
     pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
     skip_prompts = false, -- skip prompts about breaking changes
     show_changelog = true, -- show the changelog after performing an update
-    -- remotes = { -- easily add new remotes to track
-    --   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
-    --   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
-    --   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
-    -- },
-  },
-
-  -- Set colorscheme
-  -- colorscheme = "nordfox",
-  -- colorscheme = "dawnfox",
-  colorscheme = "default_theme",
-  -- colorscheme = "tokyonight",
-  -- colorscheme = "nightfox",
-
-  -- set vim options here (vim.<first_key>.<second_key> =  value)
-  options = {
-    opt = {
-      relativenumber = true, -- sets vim.opt.relativenumber
-      timeoutlen = 500, -- Length of time to wait for a mapped sequence
-      wrap = true, -- Disable wrapping of lines longer than the width of window
-      scrolloff=20
-    },
-    g = {
-      mapleader = " ", -- sets vim.g.mapleader
+    auto_quit = false, -- automatically quit the current session after a successful update
+    remotes = { -- easily add new remotes to track
+      --   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
+      --   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
+      --   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
     },
   },
 
-  -- Default theme configuration
-  default_theme = {
-    diagnostics_style = { italic = true },
-    -- Modify the color table
-    colors = {
-      fg = "#abb2bf",
-    },
-    -- Modify the highlight groups
-    highlights = function(highlights)
-      local C = require "default_theme.colors"
+  -- Set colorscheme to use
+  -- colorscheme = "astrodark",
+  colorscheme = "catppuccin",
 
-      highlights.Normal = { fg = C.white, bg = C.bg }
-      highlights.TabLineFill = { fg = C.grey_3, bg = C.black }
-      highlights.TabLine = { fg = C.grey, bg = C.grey_3 }
-      highlights.VertSplit = { fg = C.grey_1, bg = C.bg }
-      return highlights
-    end,
-    plugins = { -- enable or disable extra plugin highlighting
-      aerial = true,
-      beacon = false,
-      bufferline = true,
-      dashboard = true,
-      highlighturl = true,
-      hop = false,
-      indent_blankline = true,
-      lightspeed = false,
-      ["neo-tree"] = false,
-      notify = true,
-      ["nvim-tree"] = true,
-      ["nvim-web-devicons"] = true,
-      rainbow = true,
-      symbols_outline = false,
-      telescope = true,
-      vimwiki = false,
-      ["which-key"] = true,
-    },
-  },
-
-  -- Disable AstroNvim ui features
-  ui = {
-    nui_input = true,
-    telescope_select = true,
-  },
-
-  -- Configure plugins
-  plugins = {
-    -- All other entries override the setup() call for default plugins
-    ["null-ls"] = function(config)
-      local null_ls = require "null-ls"
-      -- Check supported formatters and linters
-      -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-      -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-      config.sources = {
-        -- Set a formatter
-        null_ls.builtins.formatting.rufo,
-        -- Set a linter
-        null_ls.builtins.diagnostics.rubocop,
-      }
-      -- set up null-ls's on_attach function
-      -- config.on_attach = function(client)
-      --   -- NOTE: You can remove this on attach function to disable format on save
-      --   if client.resolved_capabilities.document_formatting then
-      --     vim.api.nvim_create_autocmd("BufWritePre", {
-      --       desc = "Auto format before save",
-      --       pattern = "<buffer>",
-      --       callback = vim.lsp.buf.formatting_sync,
-      --     })
-      --   end
-      -- end
-      return config -- return final config table
-    end,
-    treesitter = {
-      ensure_installed = { "lua" },
-    },
-    ["nvim-lsp-installer"] = {
-      ensure_installed = { "sumneko_lua" },
-    },
-    packer = {
-      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
-      display = {
-        non_interactive = false,
-      }
-    },
-    cinnamon = {
-      default_keymaps = false,
-      centered = false,
-      horizontal_scroll = false,
-      default_delay = 5
-    },
-    ["better_escape"] = {
-      mapping = { "jj" }, -- a table with mappings to use
-      clear_empty_lines = true,
-    },
-    toggleterm = {
-      open_mapping = [[<c-t>]],
-      direction = "horizontal",
-    },
-    ["gitsigns"] = {
-      attach_to_untracked = false,
-    },
-    notify = {
-      stages = "fade",
-      timeout = 1000,
-    }
-  },
-
-  -- LuaSnip Options
-  luasnip = {
-    -- Add paths for including more VS Code style snippets in luasnip
-    vscode_snippet_paths = {},
-    -- Extend filetypes
-    filetype_extend = {
-      javascript = { "javascriptreact" },
-    },
-  },
-
-  -- Modify which-key registration
-  ["which-key"] = {
-    -- Add bindings
-    register_mappings = {
-      -- first key is the mode, n == normal mode
-      n = {
-        -- second key is the prefix, <leader> prefixes
-        ["<leader>"] = {
-          -- which-key registration table for normal mode, leader prefix
-          -- ["N"] = { "<cmd>tabnew<cr>", "New Buffer" },
-          ["\\"] = { name = "LSP" }
-        },
-      },
-    },
-  },
-
-  -- CMP Source Priorities
-  -- modify here the priorities of default cmp sources
-  -- higher value == higher priority
-  -- The value can also be set to a boolean for disabling default sources:
-  -- false == disabled
-  -- true == 1000
-  cmp = {
-    source_priority = {
-      nvim_lsp = 1000,
-      luasnip = 750,
-      buffer = 500,
-      path = 250,
-    },
-  },
-
-  lsp = {
-    -- enable servers that already installed without lsp-installer
-    servers = {
-      -- "pyright"
-    },
-    -- add to the server on_attach function
-
-    -- override the lsp installer server-registration function
-    -- server_registration = function(server, opts)
-    --   require("lspconfig")[server].setup(opts)
-    -- end,
-
-    mappings = function(_)
-      return {}
-    end,
-
-  },
-
-  -- Diagnostics configuration (for vim.diagnostics.config({}))
+  -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
     virtual_text = true,
     underline = true,
   },
 
-  -- This function is run last
-  -- good place to configure mappings and vim options
+  lsp = {
+    -- customize lsp formatting options
+    formatting = {
+      -- control auto formatting on save
+      format_on_save = {
+        enabled = false, -- enable or disable format on save globally
+        allow_filetypes = { -- enable format on save for specified filetypes only
+          -- "go",
+        },
+        ignore_filetypes = { -- disable format on save for specified filetypes
+          -- "python",
+        },
+      },
+      disabled = { -- disable formatting capabilities for the listed language servers
+        -- disable lua_ls formatting capability if you want to use StyLua to format your lua code
+        -- "lua_ls",
+      },
+      timeout_ms = 1000, -- default format timeout
+      -- filter = function(client) -- fully override the default formatting function
+      --   return true
+      -- end
+    },
+    -- enable servers that you already have installed without mason
+    servers = {
+      -- "pyright"
+    },
+  },
+
+  -- Configure require("lazy").setup() options
+  lazy = {
+    defaults = { lazy = true },
+    performance = {
+      rtp = {
+        -- customize default disabled vim plugins
+        disabled_plugins = { "tohtml", "gzip", "matchit", "zipPlugin", "netrwPlugin", "tarPlugin" },
+      },
+    },
+  },
+
+  -- This function is run last and is a good place to configuring
+  -- augroups/autocommands and custom filetypes also this just pure lua so
+  -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
-    require 'user.mappings'
-    require 'user.autocmds'
-
-    local is_available = astronvim.is_available
-    User.fn.do_mappings()
-
-    -- Disable intro screen
-    vim.cmd("set shortmess+=I")
-
-    -- Set autocommands
-    User.fn.do_autocmds()
-
-    vim.api.nvim_create_augroup("packer_conf", { clear = true })
-    vim.api.nvim_create_autocmd("BufWritePost", {
-      desc = "Sync packer after modifying plugins.lua",
-      group = "packer_conf",
-      pattern = { "plugins.lua" },
-      command = "source <afile> | PackerSync",
-    })
-
+    -- Set up custom filetypes
+    -- vim.filetype.add {
+    --   extension = {
+    --     foo = "fooscript",
+    --   },
+    --   filename = {
+    --     ["Foofile"] = "fooscript",
+    --   },
+    --   pattern = {
+    --     ["~/%.config/foo/.*"] = "fooscript",
+    --   },
+    -- }
     vim.api.nvim_create_augroup("user_start", { clear = true })
     vim.api.nvim_create_augroup("user_exit", { clear = true })
     local has_neotree = is_available("neo-tree")
@@ -258,7 +100,7 @@ local config = {
       tree_show = has_nvimtree and "NvimTreeOpen" or tree_show
       tree_focus = has_neotree and "NvimTreeFocus" or tree_focus
       local session_get_f = function(dir)
-        return require 'session_manager.utils'.dir_to_session_filename(dir)
+        return require 'session_manager.config'.dir_to_session_filename(dir)
       end
 
       local dir_start = function()
@@ -306,21 +148,5 @@ local config = {
         callback = dir_start
       })
     end
-
-
-    -- Set up custom filetypes
-    -- vim.filetype.add {
-    --   extension = {
-    --     foo = "fooscript",
-    --   },
-    --   filename = {
-    --     ["Foofile"] = "fooscript",
-    --   },
-    --   pattern = {
-    --     ["~/%.config/foo/.*"] = "fooscript",
-    --   },
-    -- }
   end,
 }
-
-return config
