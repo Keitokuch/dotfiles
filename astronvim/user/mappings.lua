@@ -41,6 +41,10 @@ maps = {
     ["<C-d>"] = { "15j" },
     ["<C-i>"] = { "15k" },
     ["<tab>"] = { "15k" },
+    -- jump stack
+    ["<C-p>"] = { "<C-]>" },
+    ["<C-u>"] = { "<C-i>" },
+    ["<C-y>"] = { "<C-t>" },
     -- split window
     ["s|"] = { "<cmd>vsplit<cr>", desc = "Vertical Split" },
     ["s_"] = { "<cmd>split<cr>", desc = "Horizontal Split" },
@@ -97,7 +101,7 @@ maps.n["<leader><"] = {
 -- Smart splits
 if is_available "smart-splits.nvim" then
   maps.n["sh"] = { function() require("smart-splits").move_cursor_left() end, desc = "Move to left split" }
-  maps.n["s"] = { function() require("smart-splits").move_cursor_down() end, desc = "Move to below split" }
+  maps.n["sj"] = { function() require("smart-splits").move_cursor_down() end, desc = "Move to below split" }
   maps.n["sk"] = { function() require("smart-splits").move_cursor_up() end, desc = "Move to above split" }
   maps.n["sl"] = { function() require("smart-splits").move_cursor_right() end, desc = "Move to right split" }
   maps.n["<C-Up>"] = { function() require("smart-splits").resize_up() end, desc = "Resize split up" }
@@ -106,7 +110,7 @@ if is_available "smart-splits.nvim" then
   maps.n["<C-Right>"] = { function() require("smart-splits").resize_right() end, desc = "Resize split right" }
 else
   maps.n["sh"] = { "<C-w>h", desc = "Move to left split" }
-  maps.n["s"] = { "<C-w>j", desc = "Move to below split" }
+  maps.n["sj"] = { "<C-w>j", desc = "Move to below split" }
   maps.n["sk"] = { "<C-w>k", desc = "Move to above split" }
   maps.n["sl"] = { "<C-w>l", desc = "Move to right split" }
   maps.n["<C-Up>"] = { "<cmd>resize -2<CR>", desc = "Resize split up" }
