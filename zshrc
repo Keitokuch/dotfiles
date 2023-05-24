@@ -45,6 +45,10 @@ function noproxy() {
     unset http_proxy https_proxy
 }
 
+function revsync() {
+    rsync -av $3 $2
+}
+
 # xterm color demo
 function spectrum_ls() {
   for code in {000..255}; do
