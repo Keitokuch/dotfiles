@@ -56,6 +56,8 @@ return {
     servers = {
       -- "pyright"
     },
+    on_attach = function (client, bufnr)
+    end 
   },
 
   -- Configure require("lazy").setup() options
@@ -148,5 +150,12 @@ return {
         callback = dir_start
       })
     end
-  end,
+
+    local map = vim.keymap.set
+    map("n", "<leader>l", function() 
+      require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1))
+    end,
+      {nowait = true, desc = "Previous buffer"}
+    )
+  end
 }

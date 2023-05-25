@@ -121,7 +121,7 @@ end
 
 -- NeoTree
 if is_available "neo-tree.nvim" then
-  maps.n["<leader>d"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer" }
+  maps.n["<leader>d"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer", nowait = true }
   maps.n["sf"] = {
     function()
       if vim.bo.filetype == "neo-tree" then
