@@ -9,6 +9,8 @@ return {
         ["<leader>;"] = "next_source",
         o = "open",
         O = "system_open",
+        C = "cut_to_clipboard",
+        x = "close_node",
         h = "parent_or_close",
         l = "child_or_open",
         Y = "copy_selector",
@@ -16,5 +18,5 @@ return {
       },
     },
   }
-  
+
 }
