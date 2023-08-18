@@ -16,9 +16,8 @@ local apps = {
   { app_mod, "n", "Numi" },
   { app_mod, "d", "Dash" },
   { app_mod, "f", "Opera" },
-  { app_mod, "s", "Slack" },
+  { app_mod, "s", "Things" },
   { app_mod, "space", "iTerm2" },
-  { app_mod, "w", "Webull Desktop" },
   { { "alt", "shift" }, "c", "Calendar" }
 }
 
