@@ -3,16 +3,16 @@ local is_available = utils.is_available
 local map = vim.keymap.set
 
 local function get_visual_selection()
-	vim.cmd('noau normal! "vy"')
-	local text = vim.fn.getreg('v')
-	vim.fn.setreg('v', {})
+  vim.cmd('noau normal! "vy"')
+  local text = vim.fn.getreg('v')
+  vim.fn.setreg('v', {})
 
-	text = string.gsub(text, "\n", "")
-	if #text > 0 then
-		return text
-	else
-		return ''
-	end
+  text = string.gsub(text, "\n", "")
+  if #text > 0 then
+    return text
+  else
+    return ''
+  end
 end
 
 -- Mapping data with "desc" stored directly by vim.keymap.set().
@@ -33,10 +33,10 @@ maps = {
     -- this is useful for naming menus
     ["<leader>b"] = { name = "Buffers" },
     -- quick save
-    ["<leader>s"] = { ":w!<cr>", nowait = true, desc = "Save File" },  -- change description but the same command
+    ["<leader>s"] = { ":w!<cr>", nowait = true, desc = "Save File" }, -- change description but the same command
     -- quick quit
-    ["<leader>q"] = { ":qa<cr>", desc = "Quit" },  -- change description but the same command
-    ["<leader>Q"] = { ":qa!<cr>", desc = "Force quit" },  -- change description but the same command
+    ["<leader>q"] = { ":qa<cr>", desc = "Quit" },                     -- change description but the same command
+    ["<leader>Q"] = { ":qa!<cr>", desc = "Force quit" },              -- change description but the same command
     -- caret move
     ["<C-d>"] = { "15j" },
     ["<C-i>"] = { "15k" },
@@ -48,7 +48,9 @@ maps = {
     -- split window
     ["s|"] = { "<cmd>vsplit<cr>", desc = "Vertical Split" },
     ["s_"] = { "<cmd>split<cr>", desc = "Horizontal Split" },
-    ["<leader><C-w>"] = { ":close<cr>", desc = "Close window" },  -- change description but the same command
+    ["<leader><C-w>"] = { ":close<cr>", desc = "Close window" }, -- change description but the same command
+    -- jump window
+    ["sp"] = { "<C-w>p", desc = "Previous window" }
   },
   v = {
     ["<C-d>"] = { "15j" },
@@ -135,12 +137,24 @@ if is_available "neo-tree.nvim" then
 end
 
 if is_available("hop.nvim") then
-  vim.api.nvim_set_keymap('n', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-  vim.api.nvim_set_keymap('n', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
-  vim.api.nvim_set_keymap('o', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
-  vim.api.nvim_set_keymap('o', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
-  vim.api.nvim_set_keymap('x', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true})<cr>", {})
-  vim.api.nvim_set_keymap('x', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true})<cr>", {})
+  vim.api.nvim_set_keymap('n', 'f',
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
+    {})
+  vim.api.nvim_set_keymap('n', 'F',
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
+    {})
+  vim.api.nvim_set_keymap('o', 'f',
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
+    {})
+  vim.api.nvim_set_keymap('o', 'F',
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
+    {})
+  vim.api.nvim_set_keymap('x', 'f',
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true})<cr>",
+    {})
+  vim.api.nvim_set_keymap('x', 'F',
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true})<cr>",
+    {})
   vim.api.nvim_set_keymap('n', ';', "<cmd> lua require'hop'.hint_char1({multi_windows=true})<cr>", {})
   vim.api.nvim_set_keymap('v', ';', "<cmd> lua require'hop'.hint_char1()<cr>", {})
   vim.api.nvim_set_keymap('o', ';', "<cmd> lua require'hop'.hint_char1({ inclusive_jump = true })<cr>", {})
@@ -158,50 +172,70 @@ if is_available "vim-surround" then
 end
 
 if is_available "telescope.nvim" then
-  maps.n["<leader>p"] = { function ()
-    require("telescope.builtin").buffers(
-      require('telescope.themes').get_ivy
-      {
+  maps.n["<leader>p"] = {
+    function()
+      require("telescope.builtin").buffers(
+        require('telescope.themes').get_ivy
+        {
+          follow = true,
+          preview = {
+            hide_on_startup = true
+          },
+        }
+      )
+    end,
+    silent = true,
+    nowait = true,
+    desc = "Search buffers"
+  }
+  maps.n["<leader>o"] = {
+    function()
+      require("telescope.builtin").find_files({
+        no_ignore = true,
         follow = true,
-        preview = {
-          hide_on_startup = true
-        },
-      }
-    )
-  end, silent = true, nowait = true, desc = "Search buffers" } 
-  maps.n["<leader>o"] = { function()
-    require("telescope.builtin").find_files({
-      no_ignore = true,
-      follow = true,
-    })
-  end, desc = "Search files" }
-  maps.n["<leader>j"] = { function()
-    require("telescope.builtin").jumplist({
-      initial_mode = 'normal',
-      fname_width = 80
-    })
-  end, desc = "Jumplist" }
-  maps.n["<C-f>"] = { function()
-    require("telescope.builtin").live_grep({
-      no_ignore = true,
-      prompt_title = "Find String"
-    })
-  end, desc = "Find String" }
-  maps.v["<C-f>"] = { function()
-    local text = get_visual_selection()
-    require("telescope.builtin").live_grep({
-      no_ignore = true,
-      prompt_title = "Find String",
-      default_text = text
-    })
-  end, desc = "Find String" }
-  maps.n["?"] = { function()
-    local cword = vim.fn.expand("<cword>")
-    require("telescope.builtin").help_tags({
-      default_text = cword,
-    })
-  end, desc = "Search Help" }
-  maps.n["/"] = { function ()
+      })
+    end,
+    desc = "Search files"
+  }
+  maps.n["<leader>j"] = {
+    function()
+      require("telescope.builtin").jumplist({
+        initial_mode = 'normal',
+        fname_width = 80
+      })
+    end,
+    desc = "Jumplist"
+  }
+  maps.n["<C-f>"] = {
+    function()
+      require("telescope.builtin").live_grep({
+        no_ignore = true,
+        prompt_title = "Find String"
+      })
+    end,
+    desc = "Find String"
+  }
+  maps.v["<C-f>"] = {
+    function()
+      local text = get_visual_selection()
+      require("telescope.builtin").live_grep({
+        no_ignore = true,
+        prompt_title = "Find String",
+        default_text = text
+      })
+    end,
+    desc = "Find String"
+  }
+  maps.n["?"] = {
+    function()
+      local cword = vim.fn.expand("<cword>")
+      require("telescope.builtin").help_tags({
+        default_text = cword,
+      })
+    end,
+    desc = "Search Help"
+  }
+  maps.n["/"] = { function()
     require("telescope.builtin").current_buffer_fuzzy_find(
       require("telescope.themes").get_ivy
       {
@@ -223,22 +257,31 @@ if is_available "telescope.nvim" then
       preview_title = false,
     })
   end }
-  maps.n["\\d"] = { function()
-    require("telescope.builtin").diagnostics({
-      bufnr = 0,
-      initial_mode = 'normal'
-    })
-  end, desc = "Search diagnostics" }
-  maps.n["gr"] = { function()
-    require("telescope.builtin").lsp_references({
-      include_declaration = false,
-      include_current_line = false,
-      initial_mode = 'normal'
-    })
-  end, desc = "References of current symbol" }
-  maps.n["gd"] = { function()
-    require("telescope.builtin").lsp_definitions()
-  end, desc = "Show the definition of current symbol" }
+  maps.n["\\d"] = {
+    function()
+      require("telescope.builtin").diagnostics({
+        bufnr = 0,
+        initial_mode = 'normal'
+      })
+    end,
+    desc = "Search diagnostics"
+  }
+  maps.n["gr"] = {
+    function()
+      require("telescope.builtin").lsp_references({
+        include_declaration = false,
+        include_current_line = false,
+        initial_mode = 'normal'
+      })
+    end,
+    desc = "References of current symbol"
+  }
+  maps.n["gd"] = {
+    function()
+      require("telescope.builtin").lsp_definitions()
+    end,
+    desc = "Show the definition of current symbol"
+  }
   maps.n["<leader>lD"] = false
   maps.n["<leader>ls"] = false
   maps.n["\\s"] = {
