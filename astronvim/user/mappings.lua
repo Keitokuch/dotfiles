@@ -33,10 +33,10 @@ maps = {
     -- this is useful for naming menus
     ["<leader>b"] = { name = "Buffers" },
     -- quick save
-    ["<leader>s"] = { ":w!<cr>", nowait = true, desc = "Save File" }, -- change description but the same command
+    ["<leader>s"] = { ":w!<cr>", nowait = true, desc = "Save File" },
     -- quick quit
-    ["<leader>q"] = { ":qa<cr>", desc = "Quit" },                     -- change description but the same command
-    ["<leader>Q"] = { ":qa!<cr>", desc = "Force quit" },              -- change description but the same command
+    ["<leader>q"] = { ":qa<cr>", desc = "Quit" },
+    ["<leader>Q"] = { ":qa!<cr>", desc = "Force quit" },
     -- caret move
     ["<C-d>"] = { "15j" },
     ["<C-i>"] = { "15k" },
@@ -48,7 +48,7 @@ maps = {
     -- split window
     ["s|"] = { "<cmd>vsplit<cr>", desc = "Vertical Split" },
     ["s_"] = { "<cmd>split<cr>", desc = "Horizontal Split" },
-    ["<leader><C-w>"] = { ":close<cr>", desc = "Close window" }, -- change description but the same command
+    ["<leader><C-w>"] = { ":close<cr>", desc = "Close window" },
     -- jump window
     ["sp"] = { "<C-w>p", desc = "Previous window" }
   },
@@ -62,7 +62,9 @@ maps = {
     -- ["<esc>"] = false,
   },
   x = {
-    --
+    ["<C-d>"] = { "15j" },
+    ["<C-i>"] = { "15k" },
+    ["<tab>"] = { "15k" },
   },
   i = {
     -- caret move
