@@ -313,17 +313,16 @@ maps.n["<leader>PA"] = { "<cmd>AstroUpdate<cr>", desc = "AstroNvim Update" }
 maps.n["<leader>Pv"] = { "<cmd>AstroVersion<cr>", desc = "AstroNvim Version" }
 maps.n["<leader>Pl"] = { "<cmd>AstroChangelog<cr>", desc = "AstroNvim Changelog" }
 
-maps.n["<leader>pi"] = false
-maps.n["<leader>ps"] = false
-maps.n["<leader>pS"] = false
-maps.n["<leader>pu"] = false
-maps.n["<leader>pU"] = false
-maps.n["<leader>pa"] = false
-maps.n["<leader>pA"] = false
-maps.n["<leader>pv"] = false
-maps.n["<leader>pl"] = false
-maps.n["<leader>pm"] = false
-maps.n["<leader>pM"] = false
+local function mapNoWait(mapping)
+  for ascii = string.byte('A'), string.byte('z') do
+    local key = mapping .. string.char(ascii)
+    maps.n[key] = false
+  end
+end
+
+mapNoWait("<leader>p")
+mapNoWait("<leader>d")
+
 
 -- SymbolsOutline
 if is_available "aerial.nvim" then
