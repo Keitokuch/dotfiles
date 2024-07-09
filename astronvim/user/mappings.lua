@@ -322,6 +322,7 @@ end
 
 mapNoWait("<leader>p")
 mapNoWait("<leader>d")
+mapNoWait("<leader>l")
 
 
 -- SymbolsOutline

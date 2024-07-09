@@ -16,6 +16,7 @@ local lsp_mappings = {
     ["<leader>lR"] = false,
     ["<leader>lr"] = false,
     ["<leader>lG"] = false,
+    ["<leader>lD"] = false,
   },
   v = {
     ["<leader>l"] = false,
