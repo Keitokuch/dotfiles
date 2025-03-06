@@ -3,6 +3,8 @@
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
 
+astrobuffer = require("astrocore.buffer")
+
 ---@type LazySpec
 return {
 	"AstroNvim/astrocore",
