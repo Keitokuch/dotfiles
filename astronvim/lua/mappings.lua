@@ -196,19 +196,19 @@ maps.v["?"] = {
 	end,
 	desc = "Search Help",
 }
--- maps.n["?"] = { function()
---   require("telescope.builtin").current_buffer_fuzzy_find(
---     require("telescope.themes").get_ivy
---     {
---       prompt_title = "Search String",
---       preview_title = false,
---       preview = {
---         hide_on_startup = true,
---         -- hide_on_startup = false,
---       },
---     }
---   )
--- end }
+maps.n["/"] = {
+	function()
+		require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_ivy({
+			prompt_title = "Search String",
+			preview_title = false,
+			preview = {
+				hide_on_startup = true,
+				-- hide_on_startup = false,
+			},
+		}))
+	end,
+}
+maps.n["?"] = { "/" }
 maps.n["<Leader>fn"] = {
 	function()
 		require("telescope").extensions.notify.notify()
@@ -266,7 +266,7 @@ maps.v["q"] = { "<esc>" }
 maps.v["<C-c>"] = { "<esc>" }
 
 -- Manage Buffers
-local buffer = require("astrocore.buffer")
+local buffer = astrobuffer
 maps.n["<Leader>w"] = {
 	function()
 		buffer.close()
