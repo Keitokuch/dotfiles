@@ -27,8 +27,8 @@ maps = {
 		-- quick save
 		["<Leader>s"] = { ":w!<cr>", nowait = true, desc = "Save File" }, -- change description but the same command
 		-- quick quit
-		["<Leader>q"] = { ":qa<cr>", desc = "Quit" }, -- change description but the same command
-		["<Leader>Q"] = { ":qa!<cr>", desc = "Force quit" }, -- change description but the same command
+		["<Leader>q"] = { ":qa<cr>", desc = "Quit" },                   -- change description but the same command
+		["<Leader>Q"] = { ":qa!<cr>", desc = "Force quit" },            -- change description but the same command
 		-- caret move
 		["<C-d>"] = { "15j" },
 		["<C-i>"] = { "15k" },
@@ -37,6 +37,7 @@ maps = {
 		["s|"] = { "<cmd>vsplit<cr>", desc = "Vertical Split" },
 		["s_"] = { "<cmd>split<cr>", desc = "Horizontal Split" },
 		["<Leader><C-w>"] = { ":close<cr>", desc = "Close window" }, -- change description but the same command
+		["sp"] = { "<C-w>p", desc = "Previous window" },
 
 		-- NeoTree
 		["<Leader>d"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer", nowait = true },
@@ -49,6 +50,18 @@ maps = {
 				end
 			end,
 			desc = "Toggle Explorer Focus",
+		},
+
+		["st"] = {
+			function()
+				require("aerial").open({ focus = true })
+			end,
+			desc = "Switch to Symbol Tree",
+		},
+		["ss"] = {
+			function()
+				require("aerial").toggle({ focus = false })
+			end,
 		},
 
 		-- Smart Split
@@ -304,6 +317,17 @@ maps.n["<Leader><"] = {
 	end,
 	desc = "Move buffer tab left",
 }
+
+maps.n["S"] = { "<Plug>(nvim-surround-normal)" }
+-- maps.v["s"] = { "<Plug>(nvim-surround-visual)" }
+-- maps.n["s"] = { "<Plug>VgSurround" }
+-- maps.n["S"] = { "<Plug>VgSurround" }
+-- maps.n["Ss"] = { "<Plug>VgSurround" }
+-- maps.n["SS"] = { "<Plug>VgSurround" }
+-- maps.v["S"] = { "<Plug>VgSurround" }
+-- maps.x["gs"] = { "<Plug>VgSurround" }
+-- maps.x["S"] = { "<Plug>VgSurround" }
+-- maps.x["s"] = { "<Plug>VSurround" }
 
 local function mapNoWait(mapping)
 	for ascii = string.byte("A"), string.byte("z") do
