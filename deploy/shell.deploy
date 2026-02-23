@@ -1,6 +1,7 @@
 zshrc                       ~/.zshrc
 zshrc.$OS                   ~/.zshrc.native
 zlogin                      ~/.zlogin
+zshenv                      ~/.zshenv
 tmux.conf                   ~/.tmux.conf
 tmux.remote.conf            ~/.tmux/tmux.remote.conf
 themes/*.zsh-theme          ~/.oh-my-zsh/themes/

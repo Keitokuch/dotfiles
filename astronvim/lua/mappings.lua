@@ -165,7 +165,6 @@ maps.n["<Leader>p"] = {
 maps.n["<Leader>o"] = {
 	function()
 		require("telescope.builtin").find_files({
-			no_ignore = true,
 			follow = true,
 		})
 	end,
@@ -183,7 +182,6 @@ maps.n["<Leader>j"] = {
 maps.n["<C-f>"] = {
 	function()
 		require("telescope.builtin").live_grep({
-			no_ignore = true,
 			prompt_title = "Find String",
 		})
 	end,

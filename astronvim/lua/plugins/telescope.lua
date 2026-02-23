@@ -8,6 +8,23 @@ return {
   keys = { "<leader>f" }, -- Example: Map leader+f to Telescope
   opts = {
     defaults = {
+      file_ignore_patterns = {
+        -- Python venvs (common directory names)
+        "/%.venv/",
+        "/venv/",
+        "/%.virtualenv/",
+        "/virtualenv/",
+        -- Catches any venv by internal structure (lib/python3.X/site-packages)
+        "lib/python%d%.%d+/",
+        "site%-packages/",
+        -- Python build artifacts
+        "__pycache__/",
+        "%.pyc$",
+        "%.egg%-info/",
+        -- General
+        "%.git/",
+        "node_modules/",
+      },
       layout_strategy = "horizontal", -- or "vertical"
       layout_config = {
         prompt_position = "top", -- Moves input box to the top
