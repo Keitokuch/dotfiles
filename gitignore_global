@@ -13,13 +13,11 @@
 .Session.nvim
 .tags*
 .ccls-cache
-tags
-.proj
+/tags
 
 # Python
 *.pyc
 __pycache__/
-pyproject.toml
 
 # tex
 .latex_aux/
@@ -29,5 +27,3 @@ pyproject.toml
 
 # Java
 *.class
-
-.*
