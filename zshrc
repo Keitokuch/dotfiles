@@ -132,4 +132,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 [[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
 
+source $HOME/.profile
+
 source $ZSH/oh-my-zsh.sh
