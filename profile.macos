@@ -1,0 +1,6 @@
+# macOS-specific environment
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
