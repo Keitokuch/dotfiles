@@ -1,1 +1,1 @@
-/home/joshchen/dotfiles/themes/vim-keitoku.vim
+/Users/joshchen/dotfiles/themes/vim-keitoku.vim
