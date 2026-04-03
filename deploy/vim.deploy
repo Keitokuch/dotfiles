@@ -1,4 +1,3 @@
 init.vim                    ~/.vim/vimrc
 vim/*                       ~/.vim/
-themes/*.vim                ~/.config/nvim/colors/
 themes/*.vim                ~/.vim/colors/
