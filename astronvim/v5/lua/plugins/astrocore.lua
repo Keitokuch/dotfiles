@@ -65,6 +65,20 @@ return {
       },
     },
     autocmds = {
+      neotree_start = {
+        {
+          event = "VimEnter",
+          desc = "Open Neo-Tree on startup",
+          nested = true,
+          callback = function()
+            -- only when opening with no file args or a directory arg
+            if vim.fn.argc(-1) == 0 or (vim.fn.argc(-1) == 1 and vim.fn.isdirectory(vim.fn.argv()[1]) ~= 0) then
+              -- defer so session restore runs first
+              vim.schedule(function() vim.cmd "Neotree show" end)
+            end
+          end,
+        },
+      },
       restore_session = {
         {
           event = "VimEnter",
