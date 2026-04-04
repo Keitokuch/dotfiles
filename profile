@@ -3,8 +3,9 @@
 
 # User environment
 export MANPATH="/usr/local/man:$MANPATH"
+export PATH="$HOME/.local/bin:$PATH"
 
-if [[ -x "$(command -v nvim)" ]]; then
+if (( $+commands[nvim] )) 2>/dev/null; then
     export EDITOR='nvim'
 else
     export EDITOR='vim'
