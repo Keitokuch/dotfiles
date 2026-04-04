@@ -2,3 +2,10 @@ tic -o $HOME/.terminfo $CONFIG_PATH/terminfo/tmux.terminfo
 tic -o $HOME/.terminfo $CONFIG_PATH/terminfo/tmux-256color.terminfo
 tic -o $HOME/.terminfo $CONFIG_PATH/terminfo/xterm-256color.terminfo
 git config --global include.path ~/.gitconfig.shared
+
+# Install powerlevel10k if not present
+P10K_DIR="${P10K_DIR:-$HOME/.p10k}"
+if [[ ! -d "$P10K_DIR" ]]; then
+    echo ">>> Installing powerlevel10k..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
+fi

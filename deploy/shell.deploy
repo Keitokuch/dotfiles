@@ -2,9 +2,11 @@ profile                     ~/.profile
 profile.$OS                 ~/.profile.native
 zprofile                    ~/.zprofile
 zshrc                       ~/.zshrc
+zshrc.$OS                   ~/.zshrc.native
 tmux.conf                   ~/.tmux.conf
 tmux.remote.conf            ~/.tmux/tmux.remote.conf
 themes/*.zsh-theme          ~/.oh-my-zsh/themes/
+p10k.zsh                    ~/.p10k.zsh
 scripts/cpu_usage.sh        ~/.tmux/cpu_usage.sh
 scripts/mem_usage.sh        ~/.tmux/mem_usage.sh
 gitignore_global            ~/.config/git/ignore

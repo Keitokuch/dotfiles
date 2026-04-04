@@ -29,4 +29,9 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="$zprompt_cgbk]%{$reset_color%} "
 ZSH_THEME_GIT_PROMPT_DIRTY="*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-PROMPT='$zprompt_cuser❄ $zprompt_sig $zprompt_cdir$zprompt_dir: $(git_prompt_info)%{$reset_color%}♨  '
+# Update git info in precmd to avoid subshell fork on each prompt
+_keitoku_precmd() { _keitoku_git=$(git_prompt_info) }
+autoload -U add-zsh-hook
+add-zsh-hook precmd _keitoku_precmd
+
+PROMPT='$zprompt_cuser❄ $zprompt_sig $zprompt_cdir$zprompt_dir: $_keitoku_git%{$reset_color%}♨  '
