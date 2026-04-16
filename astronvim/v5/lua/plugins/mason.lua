@@ -18,8 +18,7 @@ return {
         -- install debuggers
         "debugpy",
 
-        -- install any other package
-        "tree-sitter-cli",
+        -- tree-sitter-cli installed manually (v0.24.7, last version compatible with glibc 2.31)
       },
     },
   },

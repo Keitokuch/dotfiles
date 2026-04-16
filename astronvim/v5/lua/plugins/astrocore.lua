@@ -17,6 +17,8 @@ return {
       highlighturl = true, -- highlight URLs at start
       notifications = true, -- enable notifications at start
     },
+    -- Disable auto root detection on every BufEnter (slow on network filesystems)
+    rooter = { autochdir = false },
     -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
     diagnostics = {
       virtual_text = true,
@@ -65,37 +67,29 @@ return {
       },
     },
     autocmds = {
-      neotree_start = {
-        {
-          event = "VimEnter",
-          desc = "Open Neo-Tree on startup",
-          nested = true,
-          callback = function()
-            -- only when opening with no file args or a directory arg
-            if vim.fn.argc(-1) == 0 or (vim.fn.argc(-1) == 1 and vim.fn.isdirectory(vim.fn.argv()[1]) ~= 0) then
-              -- defer so session restore runs first
-              vim.schedule(function() vim.cmd "Neotree show" end)
-            end
-          end,
-        },
-      },
       restore_session = {
         {
           event = "VimEnter",
-          desc = "Restore previous directory session if neovim opened with no arguments",
-          nested = true, -- trigger other autocommands as buffers open
+          desc = "Restore previous directory session on startup, or open Neo-Tree",
+          nested = true,
           callback = function()
+            local should_open = vim.fn.argc(-1) == 0
+              or (vim.fn.argc(-1) == 1 and vim.fn.isdirectory(vim.fn.argv()[1]) ~= 0)
+            if not should_open then return end
+
+            -- try to restore session
             if not vim.g.using_stdin then
               if vim.fn.argc(-1) == 0 then
-                -- try to load a directory session using the current working directory
                 require("resession").load(vim.fn.getcwd(), { dir = "dirsession", silence_errors = true })
-              end
-              if vim.fn.argc(-1) == 1 and vim.fn.isdirectory(vim.fn.argv()[1]) ~= 0 then
+              elseif vim.fn.argc(-1) == 1 and vim.fn.isdirectory(vim.fn.argv()[1]) ~= 0 then
                 vim.loop.chdir(vim.fn.argv()[1])
-                print("Starting session " .. vim.fn.getcwd())
                 require("resession").load(vim.fn.getcwd(), { dir = "dirsession", silence_errors = true })
               end
             end
+            -- open Neo-Tree only if no session was loaded
+            vim.schedule(function()
+              if not require("resession").get_current() then vim.cmd "Neotree show" end
+            end)
           end,
         },
       },
