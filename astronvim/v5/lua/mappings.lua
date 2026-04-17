@@ -123,30 +123,29 @@ maps.v["q"] = { "<esc>" }
 maps.v["<C-c>"] = { "<esc>" }
 
 -- Manage Buffers
-local buffer = require "astrocore.buffer"
 maps.n["<Leader>w"] = {
-  function() buffer.close() end,
+  function() require("astrocore.buffer").close() end,
   desc = "Close buffer",
 }
 maps.n["<Leader>W"] = {
-  function() buffer.close(0, true) end,
+  function() require("astrocore.buffer").close(0, true) end,
   desc = "Force close buffer",
 }
 maps.n["<Leader>;"] = {
-  function() buffer.nav(vim.v.count > 0 and vim.v.count or 1) end,
+  function() require("astrocore.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end,
   desc = "Next buffer",
 }
 maps.n["<Leader>l"] = {
-  function() buffer.nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
+  function() require("astrocore.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
   nowait = true,
   desc = "Previous buffer",
 }
 maps.n["<Leader>>"] = {
-  function() buffer.move(vim.v.count > 0 and vim.v.count or 1) end,
+  function() require("astrocore.buffer").move(vim.v.count > 0 and vim.v.count or 1) end,
   desc = "Move buffer tab right",
 }
 maps.n["<Leader><"] = {
-  function() buffer.move(-(vim.v.count > 0 and vim.v.count or 1)) end,
+  function() require("astrocore.buffer").move(-(vim.v.count > 0 and vim.v.count or 1)) end,
   desc = "Move buffer tab left",
 }
 
