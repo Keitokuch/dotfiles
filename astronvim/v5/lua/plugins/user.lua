@@ -7,11 +7,9 @@ return {
 
   -- == Examples of Adding Plugins ==
 
-  "andweeb/presence.nvim",
   {
-    "ray-x/lsp_signature.nvim",
-    event = "BufRead",
-    config = function() require("lsp_signature").setup() end,
+    "saghen/blink.cmp",
+    opts = { signature = { enabled = true } },
   },
 
   {
@@ -46,12 +44,20 @@ return {
 
   {
     "lfv89/vim-interestingwords",
-    event = "BufEnter",
+    event = "VeryLazy",
   },
   {
     "phaazon/hop.nvim",
     branch = "v1",
-    event = "VimEnter",
+    keys = {
+      { "f", function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.AFTER_CURSOR, current_line_only = true }) end, mode = { "n", "x" } },
+      { "F", function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.BEFORE_CURSOR, current_line_only = true }) end, mode = { "n", "x" } },
+      { "f", function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true }) end, mode = "o" },
+      { "F", function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true }) end, mode = "o" },
+      { ";", function() require("hop").hint_char1({ multi_windows = true }) end, mode = "n" },
+      { ";", function() require("hop").hint_char1() end, mode = "v" },
+      { ";", function() require("hop").hint_char1({ inclusive_jump = true }) end, mode = "o" },
+    },
     config = function()
       require("hop").setup {
         keys = "asdfghjkl;wertyuiopcvnm",

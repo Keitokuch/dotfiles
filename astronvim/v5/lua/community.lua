@@ -9,4 +9,12 @@ return {
   -- import/override with your plugins folder
   -- import/override with your plugins folder
   { import = "astrocommunity.colorscheme.catppuccin" },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    opts = {
+      compile_path = vim.fn.stdpath "cache" .. "/catppuccin",
+      compile = true,
+    },
+  },
 }

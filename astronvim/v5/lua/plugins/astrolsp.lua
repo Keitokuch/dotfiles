@@ -84,7 +84,7 @@ return {
         -- list of auto commands to set
         {
           -- events to trigger
-          event = { "InsertLeave", "BufEnter" },
+          event = { "InsertLeave", "BufWritePost" },
           -- the rest of the autocmd options (:h nvim_create_autocmd)
           desc = "Refresh codelens (buffer)",
           callback = function(args)
