@@ -2,12 +2,8 @@ return {
 	"nvim-neo-tree/neo-tree.nvim",
 	opts = {
 		enable_diagnostics = false,
-		enable_git_status = not vim.loop.fs_stat ".sshfs",
 		filesystem = {
 			hijack_netrw_behavior = "disabled",
-			async_directory_scan = "always",
-			use_libuv_file_watcher = false,
-			scan_mode = "shallow",
 		},
 		window = {
 			width = 30,
@@ -100,17 +96,17 @@ return {
 			},
 			-- If you don't want to use these columns, you can set `enabled = false` for each of them individually
 			file_size = {
-				enabled = false,
+				enabled = true,
 				width = 8, -- width of the column
 				required_width = 40, -- min width of window required to show this column
 			},
 			type = {
-				enabled = false,
+				enabled = true,
 				width = 10, -- width of the column
 				required_width = 122, -- min width of window required to show this column
 			},
 			last_modified = {
-				enabled = false,
+				enabled = true,
 				width = 20, -- width of the column
 				required_width = 88, -- min width of window required to show this column
 			},

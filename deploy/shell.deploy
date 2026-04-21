@@ -1,6 +1,7 @@
 profile                     ~/.profile
 profile.$OS                 ~/.profile.native
 zprofile                    ~/.zprofile
+zshenv                      ~/.zshenv
 zshrc                       ~/.zshrc
 zshrc.$OS                   ~/.zshrc.native
 tmux.conf                   ~/.tmux.conf

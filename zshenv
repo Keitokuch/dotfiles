@@ -1,6 +1,4 @@
-# Sourced for ALL zsh invocations (interactive and non-interactive)
-
-# Source global profile for PATH setup
-source $HOME/.profile
-
-export PATH="$PATH:$HOME/.local/bin"
+# Sourced by every zsh invocation (login, interactive, and script shells).
+# Ensures PATH and other env are set for non-interactive shells (ssh exec,
+# editor subshells, `zsh -c`). .profile guards against double-sourcing.
+[[ -f ~/.profile ]] && source ~/.profile

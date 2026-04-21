@@ -1,5 +1,9 @@
 # Portable environment configuration
-# Sourced by login shells via .zprofile / .bash_profile
+# Sourced by login shells via .zprofile / .bash_profile, and by every zsh
+# invocation via .zshenv. Guard against re-running on nested shells so PATH
+# and similar vars don't accumulate duplicates.
+[[ -n "$_DOTFILES_PROFILE_LOADED" ]] && return
+_DOTFILES_PROFILE_LOADED=1
 
 # User environment
 export MANPATH="/usr/local/man:$MANPATH"
@@ -18,7 +22,4 @@ export TERM=xterm-256color
 
 # Load local environment overrides
 [[ -f ~/.profile.local ]] && . ~/.profile.local
-
-# Tool-managed environment
-[[ -f ~/.jget_profile ]] && . ~/.jget_profile
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
