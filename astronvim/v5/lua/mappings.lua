@@ -33,10 +33,10 @@ maps = {
         if vim.bo.filetype == "neo-tree" then
           vim.cmd.wincmd "p"
         else
-          vim.cmd.Neotree "focus"
+          vim.cmd.Neotree "reveal"
         end
       end,
-      desc = "Toggle Explorer Focus",
+      desc = "Toggle Explorer Focus (reveal current file)",
     },
 
     ["st"] = {
