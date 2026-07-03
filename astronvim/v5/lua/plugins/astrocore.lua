@@ -29,6 +29,7 @@ return {
       -- see `:h vim.filetype.add` for usage
       extension = {
         foo = "fooscript",
+        pine = "psl",
       },
       filename = {
         [".foorc"] = "fooscript",

@@ -65,4 +65,5 @@ return {
       }
     end,
   },
+  { "jbmorgado/vim-pine-script" },
 }
