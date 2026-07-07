@@ -1,0 +1,116 @@
+# AGENTS.md
+
+This file provides guidance to coding agents working in this dotfiles repository. `CLAUDE.md` intentionally just references this file with `@AGENTS.md`.
+
+## Repository Map
+
+- `do_deploy.sh`: symlink-based deploy script.
+- `deploy/*.deploy`: source/destination manifests consumed by `do_deploy.sh`.
+- `deploy/*.deploy.after`: optional post-deploy hooks.
+- `profile`, `zprofile`, `zshenv`, `zshrc`, `profile.$OS`, `zshrc.$OS`: shell and zsh startup files.
+- `tmux.conf`, `tmux.remote.conf`, `scripts/`: tmux config and status helpers.
+- `astronvim/v5/`: active Neovim config, deployed to `~/.config/nvim`.
+- `vim/` and `init.vim`: legacy Vim/Neovim config, deployed to `~/.vim`.
+- `hammerspoon/init.lua`: macOS Hammerspoon config.
+- `astronvim/v3/`, `astronvim/v4/`, `archived/`: retained older configs; do not treat them as active unless the task explicitly asks.
+
+## Deployment
+
+Use the deploy script from the repo root:
+
+```bash
+./do_deploy.sh              # deploy all *.deploy groups
+./do_deploy.sh shell        # shell, tmux, git, terminfo, p10k
+./do_deploy.sh astronvim    # active Neovim config
+./do_deploy.sh vim          # legacy Vim config
+./do_deploy.sh macos        # Hammerspoon config
+```
+
+Each deploy manifest is a whitespace-separated `<source> <destination>` list. `do_deploy.sh` resolves `$OS` from `/etc/os-release` on Linux, so Ubuntu-specific files are named `profile.ubuntu` and `zshrc.ubuntu`; on macOS `$OS` is `macos`.
+
+Deploy behavior:
+
+- Existing symlinks at destinations are removed.
+- Existing regular files are copied into `oldconfigs/` with a date suffix.
+- Existing directories are moved into `oldconfigs/` with a date suffix.
+- Directory destinations ending in `/` are created before symlinking.
+- A matching `deploy/<group>.deploy.after` hook runs after that group.
+
+The `shell` post-hook compiles terminfo entries into `~/.terminfo`, runs `git config --global include.path ~/.gitconfig.shared`, and clones powerlevel10k into `~/.p10k` if missing. That clone needs network access.
+
+## Shell And Zsh
+
+`profile` is the portable environment file. It guards against double sourcing with `_DOTFILES_PROFILE_LOADED`, prepends `~/.local/bin`, sets `EDITOR` based on `nvim`, sets `TERM=xterm-256color`, then sources `~/.profile.native`, `~/.profile.local`, and `~/.local/bin/env` if present.
+
+`zprofile` sources `~/.profile` for login shells. `zshenv` also sources `~/.profile`, so non-interactive zsh commands get the same environment.
+
+`zshrc` is standalone interactive zsh configuration. It does not load oh-my-zsh. It sets up cached `compinit`, history, keybindings, color aliases, git aliases, tmux refresh-on-cd, OS/local interactive overrides, and powerlevel10k. It prefers `${P10K_DIR:-/usr/local/share/powerlevel10k}` and falls back to `~/.p10k`.
+
+Machine-specific shell overrides belong outside the repo in:
+
+- `~/.profile.local`
+- `~/.zshrc.local`
+- `~/.local/bin/env`
+
+## Neovim
+
+The active Neovim config is `astronvim/v5/`. `deploy/astronvim.deploy` links that directory to `~/.config/nvim`.
+
+AstroNvim v5 is bootstrapped by `astronvim/v5/init.lua`, which loads `lua/lazy_setup.lua` and then `lua/polish.lua`. Lazy imports run in this order:
+
+1. `AstroNvim/AstroNvim`
+2. `lua/community.lua`
+3. `lua/plugins/*.lua`
+
+Put new active Neovim plugin overrides in `astronvim/v5/lua/plugins/`. Key mappings live in `astronvim/v5/lua/mappings.lua` and are loaded by `plugins/astrocore.lua`.
+
+Network filesystem behavior is centralized around `vim.g.network_fs`, set in `astronvim/v5/init.lua`. Detection uses `vim.uv.fs_statfs()` for Lustre, FUSE/sshfs, NFS, and CIFS/SMB, and can be overridden with `NVIM_NETWORK_FS=1` or `NVIM_NETWORK_FS=0`.
+
+Current network-FS consumers:
+
+- `plugins/neo-tree.lua`: disables expensive git status, watchers, gitignore checks, and metadata columns on network filesystems.
+- `plugins/snacks.lua`: disables file picker symlink following on network filesystems.
+- `plugins/performance.lua`: keeps selected expensive plugins disabled on network filesystems and defers `smart-splits.nvim` loading.
+
+When changing network-FS behavior, prefer adding narrowly scoped consumers of `vim.g.network_fs` rather than scattering filesystem detection logic into individual plugin files.
+
+## Tmux
+
+`tmux.conf` uses `C-s` as prefix, vi copy-mode keys, mouse support, custom session/window/pane bindings, and a three-line status area. `tmux.remote.conf` is sourced automatically when `$SSH_CLIENT` is set and swaps the status line to remote CPU/memory helpers from `scripts/`.
+
+Local tmux-only overrides belong in `~/.tmux.conf.local`, which is sourced by `tmux.conf`.
+
+The shell deploy group links:
+
+- `tmux.conf` to `~/.tmux.conf`
+- `tmux.remote.conf` to `~/.tmux/tmux.remote.conf`
+- `scripts/cpu_usage.sh` and `scripts/mem_usage.sh` into `~/.tmux/`
+
+## Legacy Vim
+
+`deploy/vim.deploy` links `init.vim` to `~/.vim/vimrc`, copies `vim/*` into `~/.vim/`, and links Vim color themes into `~/.vim/colors/`.
+
+`init.vim` sources:
+
+- `vim/nvim.vim` for Neovim or `vim/config.vim` for Vim
+- `vim/functions.vim`
+- `vim/mappings.vim`
+- `vim/plugin.vim`
+- `vim/autocmd.vim`
+- `vim/filetype.vim`
+
+`vim/plugin.vim` uses vim-plug and sources plugin snippets from `vim/plugins/`. This is not the active AstroNvim config.
+
+## macOS
+
+`deploy/macos.deploy` links `hammerspoon/init.lua` to `~/.hammerspoon/init.lua`. The Hammerspoon config binds app toggles and ShiftIt window-management shortcuts, then optionally loads `initLocal` via `pcall(require, "initLocal")`.
+
+Machine-specific Hammerspoon config should live outside the repo as `~/.hammerspoon/initLocal.lua`.
+
+## Git And Ignore Files
+
+`gitconfig.shared` is included globally by the shell deploy hook. `gitignore_global` is deployed to `~/.config/git/ignore`.
+
+Repo-local `.gitignore` only ignores `oldconfigs/`. `gitignore_global` currently ignores common generated files plus Claude local state such as `**/.claude/settings.local.json` and `**/.claude/.cc-writes/`.
+
+Do not commit machine-local or secret-bearing files. In this repo, be especially careful with `.claude/settings.local.json`, local shell overrides, and any Hammerspoon local module.

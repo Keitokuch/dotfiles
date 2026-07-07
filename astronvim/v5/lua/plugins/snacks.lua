@@ -60,7 +60,7 @@ return {
     -- File picker
     {
       "<leader>o",
-      function() Snacks.picker.files { hidden = false, follow = true } end,
+      function() Snacks.picker.files { hidden = false, follow = not vim.g.network_fs } end,
       desc = "Find Files",
     },
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
