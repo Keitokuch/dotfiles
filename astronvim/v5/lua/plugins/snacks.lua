@@ -1,13 +1,9 @@
 local function get_visual_selection()
-  vim.cmd 'noau normal! "vy"'
+  local register = vim.fn.getreginfo "v"
+  vim.cmd [[silent noautocmd normal! "vy]]
   local text = vim.fn.getreg "v"
-  vim.fn.setreg("v", {})
-  text = string.gsub(text, "\n", "")
-  if #text > 0 then
-    return text
-  else
-    return ""
-  end
+  vim.fn.setreg("v", register)
+  return text:gsub("\n", "")
 end
 
 return {

@@ -13,4 +13,16 @@ return {
 			end,
 		},
 	},
+	config = function(_, opts)
+		local render_markdown = require "render-markdown"
+		render_markdown.setup(opts)
+
+		vim.api.nvim_create_autocmd("VimLeavePre", {
+			group = vim.api.nvim_create_augroup("dotfiles_render_markdown_exit", { clear = true }),
+			desc = "Stop render-markdown before exit-time scheduled renders",
+			callback = function()
+				pcall(render_markdown.disable)
+			end,
+		})
+	end,
 }

@@ -1,6 +1,6 @@
 -- Required and used from plugins/astrocore.lua
 
-maps = {
+local maps = {
   -- first key is the mode
   n = {
     -- second key is the lefthand side of the map
@@ -112,15 +112,7 @@ maps = {
   -- this is useful for naming menus
   -- ["<Leader>b"] = { desc = "Buffers" },
 
-  -- setting a mapping to false will disable it
-  -- ["<C-S>"] = false,
 }
-
--- Control
-maps.n["q"] = { "<esc><cmd>noh<cr>" }
-maps.n["<C-c>"] = { "<esc><cmd>noh<cr>" }
-maps.v["q"] = { "<esc>" }
-maps.v["<C-c>"] = { "<esc>" }
 
 -- Manage Buffers
 maps.n["<Leader>w"] = {
@@ -149,18 +141,17 @@ maps.n["<Leader><"] = {
   desc = "Move buffer tab left",
 }
 
-maps.n["S"] = { "<Plug>(nvim-surround-normal)" }
--- maps.v["s"] = { "<Plug>(nvim-surround-visual)" }
+maps.n["S"] = { "<Plug>(nvim-surround-normal)", desc = "Surround" }
 
-local function mapNoWait(mapping)
+local function map_no_wait(mapping)
   for ascii = string.byte "A", string.byte "z" do
     local key = mapping .. string.char(ascii)
     maps.n[key] = false
   end
 end
 
-mapNoWait "<Leader>p"
-mapNoWait "<Leader>d"
-mapNoWait "<Leader>l"
+map_no_wait "<Leader>p"
+map_no_wait "<Leader>d"
+map_no_wait "<Leader>l"
 
 return maps

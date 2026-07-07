@@ -26,16 +26,9 @@ return {
     },
     -- passed to `vim.filetype.add`
     filetypes = {
-      -- see `:h vim.filetype.add` for usage
       extension = {
-        foo = "fooscript",
+        -- vim-pine-script registers *.psl; keep *.pine files on the same syntax.
         pine = "psl",
-      },
-      filename = {
-        [".foorc"] = "fooscript",
-      },
-      pattern = {
-        [".*/etc/foo/.*"] = "fooscript",
       },
     },
     -- vim options can be configured here
@@ -83,7 +76,7 @@ return {
               if vim.fn.argc(-1) == 0 then
                 require("resession").load(vim.fn.getcwd(), { dir = "dirsession", silence_errors = true })
               elseif vim.fn.argc(-1) == 1 and vim.fn.isdirectory(vim.fn.argv()[1]) ~= 0 then
-                vim.loop.chdir(vim.fn.argv()[1])
+                vim.api.nvim_set_current_dir(vim.fn.argv()[1])
                 require("resession").load(vim.fn.getcwd(), { dir = "dirsession", silence_errors = true })
               end
             end
