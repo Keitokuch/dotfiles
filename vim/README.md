@@ -18,10 +18,10 @@ After deploy, `deploy/vim.deploy.after` installs vim-plug to `~/.vim/autoload/pl
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
-Plugin checkout installation is still explicit:
+When vim-plug is present, Vim checks for missing plugin checkouts on startup and runs a blocking `:PlugInstall --sync` for only the missing plugins. Disable this on hosts that must never install from Vim startup:
 
 ```vim
-:PlugInstall
+let g:legacy_vim_auto_install_plugins = 0
 ```
 
 ## Plugins
@@ -34,7 +34,7 @@ Keep this set small so plain Vim remains a reliable editor when Neovim is unavai
 - `vim-repeat`: repeat support for compatible plugin mappings.
 - `vim-surround`: surround editing, including `S` muscle memory.
 
-The config starts without vim-plug or installed plugins. Missing plugin loading is skipped, and automatic plugin installation is disabled unless `g:legacy_vim_auto_install_plugins` is set.
+The config starts without vim-plug or installed plugins. Missing plugin loading is skipped when vim-plug is absent; missing checkouts are auto-installed when vim-plug is present unless `g:legacy_vim_auto_install_plugins` is set to `0`.
 
 ## AstroNvim-Aligned Keys
 

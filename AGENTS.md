@@ -106,7 +106,7 @@ Neovim should use `astronvim/v5/`; do not reintroduce a second Neovim config pat
 
 `vim/README.md` documents the user-facing legacy Vim fallback behavior, plugin list, deploy hook, and AstroNvim-aligned mappings.
 
-The legacy Vim config must remain usable without Neovim, vim-plug, or installed plugins. Plugin loading is skipped when `plug#begin()` is unavailable, and automatic plugin installation is disabled unless `g:legacy_vim_auto_install_plugins` is set.
+The legacy Vim config must remain usable without Neovim, vim-plug, or installed plugins. Plugin loading is skipped when `plug#begin()` is unavailable. When vim-plug is present, Vim auto-installs missing plugin checkouts on startup unless `g:legacy_vim_auto_install_plugins` is set to `0`.
 
 Keep the legacy Vim plugin set minimal. The current optional plugins are `vim-commentary`, `vim-easymotion`, `preservim/nerdtree`, `vim-repeat`, and `vim-surround`; built-in Vim features still cover the buffer tabline, statusline, syntax/filetype support, tag jumps, and netrw fallback when NERDTree is not installed. Keep high-frequency UX aligned with `astronvim/v5/lua/mappings.lua`: `;` starts character-hint cursor jumping, `<leader>d` toggles the tree, `sf` focuses/reveals in the tree, `s|`/`s_` split the current buffer, `sh`/`sj`/`sk`/`sl` move across windows, Ctrl-arrow resizes windows, `<leader>;`/`<leader>l` navigate buffer tabs, and `<C-d>`/`<C-i>` move 15 lines. Do not add language servers, fuzzy finders, statusline frameworks, auto-taggers, NERDTree extension plugins, or Neovim-only plugins here unless the fallback use case specifically requires them.
 
