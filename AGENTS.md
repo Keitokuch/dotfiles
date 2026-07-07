@@ -11,9 +11,9 @@ This file provides guidance to coding agents working in this dotfiles repository
 - `git/`: shared Git config and global ignore file.
 - `tmux/`: tmux config and status helpers.
 - `astronvim/v5/`: active Neovim config, deployed to `~/.config/nvim`.
+- `astronvim/v3/`, `astronvim/v4/`: retained historical AstroNvim configs; do not treat them as active deploy targets unless explicitly requested.
 - `vim/`: legacy Vim/Neovim config, deployed to `~/.vim`.
 - `hammerspoon/init.lua`: macOS Hammerspoon config.
-- `astronvim/v3/`, `astronvim/v4/`, `archived/`: retained older configs; do not treat them as active unless the task explicitly asks.
 
 ## Deployment
 
