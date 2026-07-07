@@ -7,10 +7,11 @@ This file provides guidance to coding agents working in this dotfiles repository
 - `do_deploy.sh`: symlink-based deploy script.
 - `deploy/*.deploy`: source/destination manifests consumed by `do_deploy.sh`.
 - `deploy/*.deploy.after`: optional post-deploy hooks.
-- `profile`, `zprofile`, `zshenv`, `zshrc`, `profile.$OS`, `zshrc.$OS`: shell and zsh startup files.
-- `tmux.conf`, `tmux.remote.conf`, `scripts/`: tmux config and status helpers.
+- `shell/`: shell, zsh, and prompt startup files.
+- `git/`: shared Git config and global ignore file.
+- `tmux/`: tmux config and status helpers.
 - `astronvim/v5/`: active Neovim config, deployed to `~/.config/nvim`.
-- `vim/` and `init.vim`: legacy Vim/Neovim config, deployed to `~/.vim`.
+- `vim/`: legacy Vim/Neovim config, deployed to `~/.vim`.
 - `hammerspoon/init.lua`: macOS Hammerspoon config.
 - `astronvim/v3/`, `astronvim/v4/`, `archived/`: retained older configs; do not treat them as active unless the task explicitly asks.
 
@@ -26,7 +27,7 @@ Use the deploy script from the repo root:
 ./do_deploy.sh macos        # Hammerspoon config
 ```
 
-Each deploy manifest is a whitespace-separated `<source> <destination>` list. `do_deploy.sh` resolves `$OS` from `/etc/os-release` on Linux, so Ubuntu-specific files are named `profile.ubuntu` and `zshrc.ubuntu`; on macOS `$OS` is `macos`.
+Each deploy manifest is a whitespace-separated `<source> <destination>` list. `do_deploy.sh` resolves `$OS` from `/etc/os-release` on Linux, so Ubuntu-specific shell files are named `shell/profile.ubuntu` and `shell/zshrc.ubuntu`; on macOS `$OS` is `macos`.
 
 Deploy behavior:
 
@@ -40,11 +41,11 @@ The `shell` post-hook compiles terminfo entries into `~/.terminfo`, runs `git co
 
 ## Shell And Zsh
 
-`profile` is the portable environment file. It guards against double sourcing with `_DOTFILES_PROFILE_LOADED`, prepends `~/.local/bin`, sets `EDITOR` based on `nvim`, sets `TERM=xterm-256color`, then sources `~/.profile.native`, `~/.profile.local`, and `~/.local/bin/env` if present.
+`shell/profile` is the portable environment file. It guards against double sourcing with `_DOTFILES_PROFILE_LOADED`, prepends `~/.local/bin`, sets `EDITOR` based on `nvim`, sets `TERM=xterm-256color`, then sources `~/.profile.native`, `~/.profile.local`, and `~/.local/bin/env` if present.
 
-`zprofile` sources `~/.profile` for login shells. `zshenv` also sources `~/.profile`, so non-interactive zsh commands get the same environment.
+`shell/zprofile` sources `~/.profile` for login shells. `shell/zshenv` also sources `~/.profile`, so non-interactive zsh commands get the same environment.
 
-`zshrc` is standalone interactive zsh configuration. It does not load oh-my-zsh. It sets up cached `compinit`, history, keybindings, color aliases, git aliases, tmux refresh-on-cd, OS/local interactive overrides, and powerlevel10k. It prefers `${P10K_DIR:-/usr/local/share/powerlevel10k}` and falls back to `~/.p10k`.
+`shell/zshrc` is standalone interactive zsh configuration. It does not load oh-my-zsh. It sets up cached `compinit`, history, keybindings, color aliases, git aliases, tmux refresh-on-cd, OS/local interactive overrides, and powerlevel10k. It prefers `${P10K_DIR:-/usr/local/share/powerlevel10k}` and falls back to `~/.p10k`.
 
 Machine-specific shell overrides belong outside the repo in:
 
@@ -76,21 +77,21 @@ When changing network-FS behavior, prefer adding narrowly scoped consumers of `v
 
 ## Tmux
 
-`tmux.conf` uses `C-s` as prefix, vi copy-mode keys, mouse support, custom session/window/pane bindings, and a three-line status area. `tmux.remote.conf` is sourced automatically when `$SSH_CLIENT` is set and swaps the status line to remote CPU/memory helpers from `scripts/`.
+`tmux/tmux.conf` uses `C-s` as prefix, vi copy-mode keys, mouse support, custom session/window/pane bindings, and a three-line status area. `tmux/tmux.remote.conf` is sourced quietly when `$SSH_CLIENT` is set and swaps the status line to remote CPU/memory helpers from `tmux/`.
 
-Local tmux-only overrides belong in `~/.tmux.conf.local`, which is sourced by `tmux.conf`.
+Local tmux-only overrides belong in `~/.tmux.conf.local`, which is sourced quietly by `tmux/tmux.conf`.
 
 The shell deploy group links:
 
-- `tmux.conf` to `~/.tmux.conf`
-- `tmux.remote.conf` to `~/.tmux/tmux.remote.conf`
-- `scripts/cpu_usage.sh` and `scripts/mem_usage.sh` into `~/.tmux/`
+- `tmux/tmux.conf` to `~/.tmux.conf`
+- `tmux/tmux.remote.conf` to `~/.tmux/tmux.remote.conf`
+- `tmux/cpu_usage.sh` and `tmux/mem_usage.sh` into `~/.tmux/`
 
 ## Legacy Vim
 
-`deploy/vim.deploy` links `init.vim` to `~/.vim/vimrc`, copies `vim/*` into `~/.vim/`, and links Vim color themes into `~/.vim/colors/`.
+`deploy/vim.deploy` links `vim/init.vim` to `~/.vim/vimrc`, copies `vim/*` into `~/.vim/`, and links Vim color themes into `~/.vim/colors/`.
 
-`init.vim` sources:
+`vim/init.vim` sources:
 
 - `vim/nvim.vim` for Neovim or `vim/config.vim` for Vim
 - `vim/functions.vim`
@@ -109,8 +110,8 @@ Machine-specific Hammerspoon config should live outside the repo as `~/.hammersp
 
 ## Git And Ignore Files
 
-`gitconfig.shared` is included globally by the shell deploy hook. `gitignore_global` is deployed to `~/.config/git/ignore`.
+`git/gitconfig.shared` is included globally by the shell deploy hook. `git/gitignore_global` is deployed to `~/.config/git/ignore`.
 
-Repo-local `.gitignore` only ignores `oldconfigs/`. `gitignore_global` currently ignores common generated files plus Claude local state such as `**/.claude/settings.local.json` and `**/.claude/.cc-writes/`.
+Repo-local `.gitignore` only ignores `oldconfigs/`, `.codex`, and `.claude/`. `git/gitignore_global` currently ignores common generated files plus Claude local state such as `**/.claude/settings.local.json` and `**/.claude/.cc-writes/`.
 
 Do not commit machine-local or secret-bearing files. In this repo, be especially careful with `.claude/settings.local.json`, local shell overrides, and any Hammerspoon local module.
