@@ -1,3 +1,6 @@
+# Legacy Vim fallback config.
 vim/init.vim                ~/.vim/vimrc
 vim/*                       ~/.vim/
+
+# Vim color schemes.
 themes/*.vim                ~/.vim/colors/

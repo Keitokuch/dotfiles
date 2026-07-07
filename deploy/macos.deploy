@@ -1,1 +1,2 @@
+# macOS-only Hammerspoon config.
 hammerspoon/init.lua ~/.hammerspoon/init.lua

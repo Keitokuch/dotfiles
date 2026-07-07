@@ -27,7 +27,7 @@ Use the deploy script from the repo root:
 ./do_deploy.sh macos        # Hammerspoon config
 ```
 
-Each deploy manifest is a whitespace-separated `<source> <destination>` list. `do_deploy.sh` resolves `$OS` from `/etc/os-release` on Linux, so Ubuntu-specific shell files are named `shell/profile.ubuntu` and `shell/zshrc.ubuntu`; on macOS `$OS` is `macos`.
+Each deploy manifest is a whitespace-separated `<source> <destination>` list; blank lines and `#` comments are ignored. `do_deploy.sh` resolves `$OS` from `/etc/os-release` on Linux, so Ubuntu-specific shell files are named `shell/profile.ubuntu` and `shell/zshrc.ubuntu`; on macOS `$OS` is `macos`.
 
 Deploy behavior:
 

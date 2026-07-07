@@ -1,14 +1,21 @@
+# Login shell startup files.
 shell/profile               ~/.profile
 shell/profile.$OS           ~/.profile.native
 shell/zprofile              ~/.zprofile
 shell/zshenv                ~/.zshenv
 shell/zshrc                 ~/.zshrc
 shell/zshrc.$OS             ~/.zshrc.native
+
+# Tmux config and helpers.
 tmux/tmux.conf              ~/.tmux.conf
 tmux/tmux.remote.conf       ~/.tmux/tmux.remote.conf
-themes/*.zsh-theme          ~/.oh-my-zsh/themes/
-shell/p10k.zsh              ~/.p10k.zsh
 tmux/cpu_usage.sh           ~/.tmux/cpu_usage.sh
 tmux/mem_usage.sh           ~/.tmux/mem_usage.sh
+
+# Themes and prompt.
+themes/*.zsh-theme          ~/.oh-my-zsh/themes/
+shell/p10k.zsh              ~/.p10k.zsh
+
+# Shared Git config.
 git/gitignore_global        ~/.config/git/ignore
 git/gitconfig.shared        ~/.gitconfig.shared

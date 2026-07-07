@@ -1,11 +1,28 @@
-tic -o $HOME/.terminfo $CONFIG_PATH/terminfo/tmux.terminfo
-tic -o $HOME/.terminfo $CONFIG_PATH/terminfo/tmux-256color.terminfo
-tic -o $HOME/.terminfo $CONFIG_PATH/terminfo/xterm-256color.terminfo
-git config --global include.path ~/.gitconfig.shared
+if command -v tic >/dev/null 2>&1; then
+    tic -o "$HOME/.terminfo" "$CONFIG_PATH/terminfo/tmux.terminfo"
+    tic -o "$HOME/.terminfo" "$CONFIG_PATH/terminfo/tmux-256color.terminfo"
+    tic -o "$HOME/.terminfo" "$CONFIG_PATH/terminfo/xterm-256color.terminfo"
+else
+    echo "WARN: tic not found; skipping terminfo compilation" >&2
+fi
+
+if command -v git >/dev/null 2>&1; then
+    if ! git config --global include.path "$HOME/.gitconfig.shared"; then
+        echo "WARN: failed to configure shared git include" >&2
+    fi
+else
+    echo "WARN: git not found; skipping shared git include" >&2
+fi
 
 # Install powerlevel10k if not present
 P10K_DIR="${P10K_DIR:-$HOME/.p10k}"
 if [[ ! -d "$P10K_DIR" ]]; then
-    echo ">>> Installing powerlevel10k..."
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
+    if command -v git >/dev/null 2>&1; then
+        echo ">>> Installing powerlevel10k..."
+        if ! git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"; then
+            echo "WARN: failed to install powerlevel10k" >&2
+        fi
+    else
+        echo "WARN: git not found; skipping powerlevel10k install" >&2
+    fi
 fi
