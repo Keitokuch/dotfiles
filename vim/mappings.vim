@@ -2,16 +2,19 @@
 let mapleader=" "
 " jj to exit insert mode
 inoremap jj <ESC>
-" Use q for escape
-map q <ESC>
+" Use q for escape/search clear, matching AstroNvim's normal-mode behavior.
+nnoremap <silent> q :nohlsearch<CR><ESC>
+vnoremap q <ESC>
+nnoremap <silent> <C-c> :nohlsearch<CR><ESC>
+vnoremap <C-c> <ESC>
 nnoremap Q q
 " Up Down scrolling
-nnoremap <C-i> 10k
-nnoremap <Tab> 10k
-nnoremap <C-d> 10j
-vnoremap <C-i> 10k
-vnoremap <Tab> 10k
-vnoremap <C-d> 10j
+nnoremap <C-i> 15k
+nnoremap <Tab> 15k
+nnoremap <C-d> 15j
+vnoremap <C-i> 15k
+vnoremap <Tab> 15k
+vnoremap <C-d> 15j
 " Copy All
 nmap <leader>y :%yank *<CR>
 " Copy Line
@@ -19,30 +22,34 @@ nmap Y y$
 " <space>= Indent All
 nnoremap <leader>= gg=G<C-o>
 " Sudo Write
-command Sudow w !sudo dd of=%
-command W w !sudo -S tee%
+command! Sudow w !sudo dd of=%
+command! W w !sudo -S tee % > /dev/null
 " cmap w!! w !sudo -S tee%
 
 " Split
-map s <nop>
-map S <nop>
-map s_ :set splitbelow<CR>:new<CR>
-map s\| :set splitright<CR>:vnew<CR>
-map sl <C-w>l
-map sh <C-w>h
-map sk <C-w>k
-map sj <C-w>j
-map sp <C-w>p
+nnoremap s <nop>
+nnoremap S <nop>
+nnoremap s_ :split<CR>
+nnoremap s\| :vsplit<CR>
+nnoremap sl <C-w>l
+nnoremap sh <C-w>h
+nnoremap sk <C-w>k
+nnoremap sj <C-w>j
+nnoremap sp <C-w>p
 
-" Use <Meta-Arrow> or <Space><Arrow> to resize split window
-map <M-Up> :resize +5<CR>
-map <M-Down> :resize -5<CR>
-map <M-Left> :vertical resize-5<CR>
-map <M-Right> :vertical resize+5<CR>
-map <leader><Up> :resize +5<CR>
-map <leader><Down> :resize -5<CR>
-map <leader><Left> :vertical resize-5<CR>
-map <leader><Right> :vertical resize+5<CR>
+" Use Ctrl-arrow like AstroNvim; keep older aliases for terminals that send them.
+nnoremap <C-Up> :resize +5<CR>
+nnoremap <C-Down> :resize -5<CR>
+nnoremap <C-Left> :vertical resize -5<CR>
+nnoremap <C-Right> :vertical resize +5<CR>
+nnoremap <M-Up> :resize +5<CR>
+nnoremap <M-Down> :resize -5<CR>
+nnoremap <M-Left> :vertical resize -5<CR>
+nnoremap <M-Right> :vertical resize +5<CR>
+nnoremap <leader><Up> :resize +5<CR>
+nnoremap <leader><Down> :resize -5<CR>
+nnoremap <leader><Left> :vertical resize -5<CR>
+nnoremap <leader><Right> :vertical resize +5<CR>
 
 "" Tab
 " map <leader>t :tabe<CR>
@@ -50,20 +57,25 @@ map <leader><Right> :vertical resize+5<CR>
 " map <leader>[ :-tabnext<CR>
 
 "" <Space s> to save
-map <silent> <leader>s :SaveFile<CR>
+nnoremap <silent> <leader>s :SaveFile<CR>
 "" <Space q> to quit
-map <leader>q :qall<CR>
+nnoremap <leader>q :qall<CR>
 "" <Space Q> to force quit
-map <leader>Q :qall!<CR>
-"" <Space w> to close file
-map <silent> <leader>w :bd!<CR>
-"" <Space W> to force close file
-map <silent><expr> <leader>W buflisted(bufnr("%"))? ":bp<cr>:bd! #<cr>" : ":q!\<CR>"
+nnoremap <leader>Q :qall!<CR>
+"" Buffer navigation/close, matching AstroNvim's high-frequency keys.
+nnoremap <silent> <leader>w :CloseBuffer<CR>
+nnoremap <silent> <leader>W :ForceCloseBuffer<CR>
+nnoremap <silent> <leader>; :<C-u>call NextBuffer(v:count1)<CR>
+nnoremap <silent> <leader>l :<C-u>call PreviousBuffer(v:count1)<CR>
 "" <Space Ctrl-W> to close window
-map <silent> <leader><C-w> :close<CR>
+nnoremap <silent> <leader><C-w> :close<CR>
 "  <Space n> to create new file
-map <leader>n :enew<CR>i
-map <silent> <leader>N :NewFile<CR>
+nnoremap <leader>n :enew<CR>i
+nnoremap <silent> <leader>N :NewFile<CR>
+"" File explorer: NERDTree when installed, netrw fallback otherwise.
+nnoremap <silent> <leader>d :ToggleExplorer<CR>
+nnoremap <silent> sf :FocusExplorer<CR>
+nnoremap <silent> sF :FindInExplorer<CR>
 
 "" Jumping
 " <Ctrl-P> jump to tag

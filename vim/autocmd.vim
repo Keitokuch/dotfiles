@@ -1,8 +1,10 @@
 "  Vim autocmds
 "
+autocmd StdinReadPre * let g:legacy_vim_using_stdin = 1
+
 " Automatically install missing plugins on startup
 autocmd VimEnter *
-            \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+            \  if get(g:, 'legacy_vim_auto_install_plugins', 0) && exists('g:legacy_vim_plugins_enabled') && g:legacy_vim_plugins_enabled && exists('g:plugs') && exists(':PlugInstall') == 2 && len(filter(copy(values(g:plugs)), '!isdirectory(v:val.dir)'))
             \|   PlugInstall --sync | q
             \| endif
 

@@ -1,6 +1,3 @@
-" -------------------- Color Scheme -------------------
-colorscheme vim-keitoku
-
 " ----------------- Options ----------------
 set nocompatible
 set number
@@ -31,6 +28,8 @@ set nohls
 "set runtimepath+=~/.vim
 set history=1000
 set laststatus=2    "always show status
+set statusline=%f\ %m%r%h%w%=%y\ %{&fileencoding?&fileencoding:&encoding}\ [%{&fileformat}]\ %l:%c\ %p%%
+set hidden
 set mouse=a
 set scrolloff=13
 set showtabline=2
@@ -40,9 +39,25 @@ set splitbelow
 set splitright
 set cursorline
 set exrc
+set secure
 
-set termguicolors
+if has('termguicolors')
+    set termguicolors
+endif
+if exists('&signcolumn')
+    set signcolumn=yes
+endif
 syntax on
+
+" Built-in file explorer for the fallback config.
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 24
+
+" -------------------- Color Scheme -------------------
+silent! colorscheme vim-keitoku
 
 " Clipboard
 " set clipboard^=unnamed
